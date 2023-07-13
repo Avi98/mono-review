@@ -1,8 +1,13 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
-import config from './utils/config';
+import { AuthModule } from './auth/auth.module';
+import config, { dbConfig } from './utils/config';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { UserModule } from './user/user.module';
+import { PublicApiModule } from './api/public/public-api.module';
+import { PrivateApiModule } from './api/private/private-api.module';
+import { SessionModule } from './session/session.module';
+import { UserService } from './user/user.service';
 
 @Module({
   imports: [
@@ -10,8 +15,14 @@ import config from './utils/config';
       load: [config],
       isGlobal: true,
     }),
+    TypeOrmModule.forRoot(dbConfig()),
+    AuthModule,
+    UserModule,
+    PublicApiModule,
+    PrivateApiModule,
+    SessionModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [],
+  providers: [],
 })
 export class AppModule {}
