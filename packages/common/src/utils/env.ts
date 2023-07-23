@@ -34,6 +34,7 @@ export const env = {
     USERNAME: process.env.DB_USERNAME,
     PASSWORD: process.env.DB_PASSWORD,
     DATABASE: process.env.DB_DATABASE,
+    SESSION_SECRET: process.env.DB_SESSION_SECRET,
   },
   sshKeys: {
     publicKey: castEnv({
