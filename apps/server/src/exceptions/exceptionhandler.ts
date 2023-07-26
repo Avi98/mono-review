@@ -12,6 +12,7 @@ export const mapOfErrorToHTTPError = new Map([
     (object): HttpException => new BadRequestException(object),
   ],
   ['AlreadyInDB', (object): HttpException => new BadRequestException(object)],
+  ['NotInDB', (object): HttpException => new BadRequestException(object)],
 ]);
 
 @Catch()
@@ -21,6 +22,7 @@ export class ExceptionFilter extends BaseExceptionFilter {
   }
 
   static transformLocalErrors(error: Error): Error {
+    console.log({ errorCaught: error });
     const errorConst = mapOfErrorToHTTPError.get(error.name);
     if (!errorConst) return error;
 
