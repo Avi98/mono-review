@@ -27,6 +27,15 @@ export const env = {
   git: {
     remote_url: process.env.REMOTE_REPO,
   },
+  db: {
+    TYPE: process.env.DB_TYPE,
+    HOST: process.env.DB_HOST,
+    PORT: process.env.DB_PORT,
+    USERNAME: process.env.DB_USERNAME,
+    PASSWORD: process.env.DB_PASSWORD,
+    DATABASE: process.env.DB_DATABASE,
+    SESSION_SECRET: process.env.DB_SESSION_SECRET,
+  },
   sshKeys: {
     publicKey: castEnv({
       env: process.env.SSH_PUBLIC_KEY,
