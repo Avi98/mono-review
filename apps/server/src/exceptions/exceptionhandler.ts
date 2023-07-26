@@ -11,6 +11,7 @@ export const mapOfErrorToHTTPError = new Map([
     'InValidPayload',
     (object): HttpException => new BadRequestException(object),
   ],
+  ['AlreadyInDB', (object): HttpException => new BadRequestException(object)],
 ]);
 
 @Catch()

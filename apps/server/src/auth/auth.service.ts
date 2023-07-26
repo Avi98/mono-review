@@ -1,39 +1,15 @@
 import { Injectable } from '@nestjs/common';
-import { RegisterUserDto } from '../user/user-info.dto';
-import { UserService } from '../user/user.service';
-import { hashPassword } from 'src/utils/hash';
-import { AlreadyInDB } from 'src/utils/errors';
+import { UserService } from 'src/user/user.service';
+import { verifyPassword } from 'src/utils/hash';
 
 @Injectable()
 export class AuthService {
   constructor(private userService: UserService) {}
 
-  async registerUser(userInfo: RegisterUserDto) {
-    if (await this.alreadyExistsUser(userInfo.email)) {
-      throw new AlreadyInDB('Email Already exists');
-    }
-    const password = await hashPassword(userInfo.password);
-    const user = {
-      ...userInfo,
-      password,
-      source: this.getUserSource(),
-    };
-    this.userService.createUser(user);
+  async validateUser(email: string, password: string) {
+    const user = await this.userService.findUserByEmail(email);
+    const isValidPass = await verifyPassword(password, user.password);
+    if (!isValidPass) return null;
+    return user;
   }
-
-  async alreadyExistsUser(email: string) {
-    try {
-      await this.userService.getUserByEmail(email);
-      return true;
-    } catch (error) {
-      return false;
-    }
-  }
-
-  //@todo after  session implementation
-  private getUserSource(): 'invite' | 'google' | 'git' | 'azure' | 'email' {
-    return 'email';
-  }
-
-  signIn(username: string, password: string) {}
 }

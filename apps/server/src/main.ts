@@ -5,13 +5,14 @@ import { setupSession } from './utils/config';
 import { SessionService } from './session/session.service';
 import { ValidationPipe } from '@nestjs/common';
 import { ExceptionFilter } from './exceptions/exceptionhandler';
+import { NestExpressApplication } from '@nestjs/platform-express';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create<NestExpressApplication>(AppModule);
   const appConfig = app.get(ConfigService);
 
   const sessionStore = app.get(SessionService).getTypeormStore();
-  setupSession(sessionStore);
+  setupSession(sessionStore, app);
 
   app.useGlobalPipes(new ValidationPipe({ whitelist: true, transform: true }));
 

@@ -1,3 +1,4 @@
+import { Exclude } from 'class-transformer';
 import {
   Column,
   CreateDateColumn,
@@ -12,6 +13,9 @@ export class User {
   id: number;
 
   @Column()
+  username: string;
+
+  @Column()
   firstName: string;
 
   @Column()
@@ -20,12 +24,17 @@ export class User {
   @Column({ default: true })
   isActive: boolean;
 
-  @Column()
+  @Exclude()
+  @Column({
+    nullable: false,
+  })
   password: string;
 
+  @Exclude()
   @CreateDateColumn({ default: () => 'now()', name: 'created_at' })
   createdAt: Date;
 
+  @Exclude()
   @UpdateDateColumn({ default: () => 'now()', name: 'updated_at' })
   updatedAt: Date;
 
@@ -35,7 +44,8 @@ export class User {
   photo: string | null;
 
   @Column({
-    nullable: true,
+    nullable: false,
+    unique: true,
     type: 'text',
   })
   email: string | null;
@@ -43,7 +53,7 @@ export class User {
   @Column({
     type: 'enum',
     enumName: 'source',
-    enum: ['invite', 'google', 'git', 'azure'],
+    enum: ['invite', 'google', 'git', 'azure', 'email'],
     default: 'invite',
   })
   source: string;
@@ -54,6 +64,7 @@ export class User {
     photo: string;
     email: string;
     password: string;
+    username: string;
     source: 'invite' | 'google' | 'git' | 'azure' | 'email';
   }) {
     const user = new User();
@@ -63,5 +74,7 @@ export class User {
     user.source = userInfo.source;
     user.photo = userInfo.photo;
     user.password = userInfo.password;
+    user.username = userInfo.username;
+    return user;
   }
 }

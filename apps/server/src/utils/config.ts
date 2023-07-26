@@ -1,8 +1,8 @@
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { env } from '@pr/common';
-import * as Express from 'express';
 import * as ExpressSession from 'express-session';
 import { TypeormStore } from 'connect-typeorm';
+import { NestExpressApplication } from '@nestjs/platform-express';
 
 console.log('\nbackend server is running on port:' + parseInt(env.port_BE));
 console.log('\n');
@@ -12,8 +12,11 @@ export default () => ({
 });
 
 //setup session middleware
-export const setupSession = (sessionStore: TypeormStore) => {
-  Express().use(
+export const setupSession = (
+  sessionStore: TypeormStore,
+  app: NestExpressApplication,
+) => {
+  app.use(
     ExpressSession({
       resave: false,
       saveUninitialized: false,
