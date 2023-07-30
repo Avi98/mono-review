@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { UserService } from 'src/user/user.service';
-import { verifyPassword } from 'src/utils/hash';
+import { UserService } from '../user/user.service';
+import { verifyPassword } from '../utils/hash';
 
 @Injectable()
 export class AuthService {

@@ -2,9 +2,9 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './user.entity';
 import { Repository } from 'typeorm';
-import { AlreadyInDB } from 'src/exceptions/errors';
-import { hashPassword } from 'src/utils/hash';
-import { InviteSourceEnum } from 'src/utils/enums/InviteSourceEnum';
+import { InviteSourceEnum } from '../utils/enums/InviteSourceEnum';
+import { hashPassword } from '../utils/hash';
+import { AlreadyInDB } from '../exceptions/errors';
 
 @Injectable()
 export class UserService {
