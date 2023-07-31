@@ -7,7 +7,6 @@ import { UserModule } from './user/user.module';
 import { PublicApiModule } from './api/public/public-api.module';
 import { PrivateApiModule } from './api/private/private-api.module';
 import { SessionModule } from './session/session.module';
-import { UserService } from './user/user.service';
 
 @Module({
   imports: [
