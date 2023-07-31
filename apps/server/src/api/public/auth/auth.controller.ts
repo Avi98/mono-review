@@ -10,11 +10,11 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { RegisterUserDto } from '../../../user/user-info.dto';
-import { AuthService } from 'src/auth/auth.service';
-import { UserService } from 'src/user/user.service';
-import { LocalAuthGuard } from 'src/auth/local.strategy';
-import { SessionGuard } from 'src/session/session.gaurd';
-import { LoginInfoDto } from 'src/user/login-info.dto';
+import { AuthService } from '../../../auth/auth.service';
+import { UserService } from '../../../user/user.service';
+import { LocalAuthGuard } from '../../../auth/local.strategy';
+import { LoginInfoDto } from '../../../user/login-info.dto';
+import { SessionGuard } from '../../../session/session.gaurd';
 
 @Controller('auth')
 export class AuthController {
