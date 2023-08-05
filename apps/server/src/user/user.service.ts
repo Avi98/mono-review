@@ -28,7 +28,7 @@ export class UserService {
     return await this.userRepository.findOneBy({ email });
   }
 
-  async createUser(userInfo: {
+  async createNewUser(userInfo: {
     firstName: string;
     lastName: string;
     username: string;
@@ -39,8 +39,8 @@ export class UserService {
   }) {
     try {
       const password = await hashPassword(userInfo.password);
-      const user = User.create({ ...userInfo, password });
-      return await this.userRepository.save(user);
+      // const user = User.create({ ...userInfo, password });
+      // return await this.userRepository.save(user);
     } catch (error) {
       throw new AlreadyInDB('Email already exists');
     }

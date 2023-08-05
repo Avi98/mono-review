@@ -3,6 +3,7 @@ import {
   BadRequestException,
   Catch,
   HttpException,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { BaseExceptionFilter } from '@nestjs/core';
 
@@ -13,6 +14,10 @@ export const mapOfErrorToHTTPError = new Map([
   ],
   ['AlreadyInDB', (object): HttpException => new BadRequestException(object)],
   ['NotInDB', (object): HttpException => new BadRequestException(object)],
+  [
+    'InValidUserSession',
+    (object): HttpException => new UnauthorizedException(object),
+  ],
 ]);
 
 @Catch()

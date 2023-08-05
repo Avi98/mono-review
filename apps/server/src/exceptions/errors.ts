@@ -7,3 +7,6 @@ export class NotInDB extends Error {
 export class InValidPayload extends Error {
   name = 'InValidPayload';
 }
+export class InValidUserSession extends Error {
+  name = 'InValidUserSession';
+}

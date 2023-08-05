@@ -3,9 +3,11 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  ManyToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { Permission } from '../permission/permission.entity';
 
 @Entity()
 export class User {
@@ -58,6 +60,9 @@ export class User {
   })
   source: string;
 
+  @ManyToMany(() => Permission, (permission) => permission.user)
+  permission: Permission[];
+
   static create(userInfo: {
     firstName: string;
     lastName: string;
@@ -65,6 +70,7 @@ export class User {
     email: string;
     password: string;
     username: string;
+    permission: Permission;
     source: 'invite' | 'google' | 'git' | 'azure' | 'email';
   }) {
     const user = new User();
@@ -75,6 +81,7 @@ export class User {
     user.photo = userInfo.photo;
     user.password = userInfo.password;
     user.username = userInfo.username;
+    user.permission = [userInfo.permission];
     return user;
   }
 }

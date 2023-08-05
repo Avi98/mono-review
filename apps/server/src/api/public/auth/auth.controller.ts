@@ -4,6 +4,8 @@ import {
   ClassSerializerInterceptor,
   Controller,
   Delete,
+  Get,
+  Param,
   Post,
   Req,
   UseGuards,
@@ -15,12 +17,15 @@ import { UserService } from '../../../user/user.service';
 import { LocalAuthGuard } from '../../../auth/local.strategy';
 import { LoginInfoDto } from '../../../user/login-info.dto';
 import { SessionGuard } from '../../../session/session.gaurd';
+import { OrganizationService } from '../../../organization/organization.service';
+import { UserStatusEnum } from '../../../utils/enums/UserStatusEnum';
 
 @Controller('auth')
 export class AuthController {
   constructor(
     private authService: AuthService,
     private userService: UserService,
+    private orgService: OrganizationService,
   ) {}
 
   @UseGuards(LocalAuthGuard)
@@ -46,6 +51,22 @@ export class AuthController {
   @Post('/signup')
   async signup(@Body() userInfo: RegisterUserDto) {
     const source = this.userService.getUserSource();
-    return await this.userService.createUser({ ...userInfo, source });
+    const organization = await this.orgService.createNewOrg({
+      name: 'new organization',
+    });
+    // const org_user = await this.orgUserService.createUserOrg({
+    //   name: 'new organization',
+    //   invitationToken: '12121',
+    //   organization,
+    //   isAdmin: true,
+    //   status: UserStatusEnum.ACTIVE,
+    // });
+    // const user = await this.userService.createNewUser({
+    //   ...userInfo,
+    //   orgUser: org_user,
+    //   source,
+    // });
+
+    // return user;
   }
 }

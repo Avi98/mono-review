@@ -26,7 +26,6 @@ export const setupSession = (
   );
 };
 
-console.log({ isDev: env.isDev });
 export function dbConfig(): TypeOrmModuleOptions {
   return {
     type: 'postgres',
@@ -38,6 +37,8 @@ export function dbConfig(): TypeOrmModuleOptions {
     connectTimeoutMS: 5000,
     autoLoadEntities: true,
     synchronize: env.isDev ? true : false,
+    migrations: [__dirname + '/migrations/**/*{.ts,.js}'],
+    logging: env.isDev ? true : false,
     extra: {
       max: 25,
     },

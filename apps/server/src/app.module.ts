@@ -7,6 +7,7 @@ import { UserModule } from './user/user.module';
 import { PublicApiModule } from './api/public/public-api.module';
 import { PrivateApiModule } from './api/private/private-api.module';
 import { SessionModule } from './session/session.module';
+import { PermissionModule } from './permission/permission.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { SessionModule } from './session/session.module';
     PublicApiModule,
     PrivateApiModule,
     SessionModule,
+    PermissionModule,
   ],
   controllers: [],
   providers: [],
