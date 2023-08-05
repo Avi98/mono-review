@@ -5,6 +5,7 @@ import { Repository } from 'typeorm';
 import { InviteSourceEnum } from '../utils/enums/InviteSourceEnum';
 import { hashPassword } from '../utils/hash';
 import { AlreadyInDB } from '../exceptions/errors';
+import { OrganizationUser } from '../organization-user/organization-user.enitiy';
 
 @Injectable()
 export class UserService {
@@ -28,13 +29,14 @@ export class UserService {
     return await this.userRepository.findOneBy({ email });
   }
 
-  async createUser(userInfo: {
+  async createNewUser(userInfo: {
     firstName: string;
     lastName: string;
     username: string;
     photo: string;
     email: string;
     password: string;
+    orgUser?: OrganizationUser;
     source: InviteSourceEnum;
   }) {
     try {

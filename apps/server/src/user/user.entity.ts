@@ -3,9 +3,11 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { OrganizationUser } from '../organization-user/organization-user.enitiy';
 
 @Entity()
 export class User {
@@ -58,6 +60,9 @@ export class User {
   })
   source: string;
 
+  @OneToMany(() => OrganizationUser, (orgUser) => orgUser.user)
+  organizationUser: OrganizationUser[];
+
   static create(userInfo: {
     firstName: string;
     lastName: string;
@@ -65,6 +70,7 @@ export class User {
     email: string;
     password: string;
     username: string;
+    orgUser?: OrganizationUser;
     source: 'invite' | 'google' | 'git' | 'azure' | 'email';
   }) {
     const user = new User();
@@ -75,6 +81,7 @@ export class User {
     user.photo = userInfo.photo;
     user.password = userInfo.password;
     user.username = userInfo.username;
+    user.organizationUser = [userInfo.orgUser];
     return user;
   }
 }
