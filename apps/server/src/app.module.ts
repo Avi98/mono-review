@@ -8,6 +8,7 @@ import { PublicApiModule } from './api/public/public-api.module';
 import { PrivateApiModule } from './api/private/private-api.module';
 import { SessionModule } from './session/session.module';
 import { PermissionModule } from './permission/permission.module';
+import { OrganizationModule } from './organization/organization.modal';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { PermissionModule } from './permission/permission.module';
     PrivateApiModule,
     SessionModule,
     PermissionModule,
+    OrganizationModule,
   ],
   controllers: [],
   providers: [],

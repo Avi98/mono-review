@@ -5,11 +5,15 @@ import { Repository } from 'typeorm';
 import { InviteSourceEnum } from '../utils/enums/InviteSourceEnum';
 import { hashPassword } from '../utils/hash';
 import { AlreadyInDB } from '../exceptions/errors';
+import { PermissionService } from '../permission/permission.service';
+import { OrganizationService } from '../organization/organization.service';
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectRepository(User) private userRepository: Repository<User>,
+    private permissionService: PermissionService,
+    private organizationService: OrganizationService,
   ) {}
 
   async getUserByEmail(userEmail) {
@@ -18,6 +22,8 @@ export class UserService {
     });
     return a?.email;
   }
+
+  async activateUser(userId) {}
 
   //@todo after  session implementation
   getUserSource(): InviteSourceEnum {
@@ -35,12 +41,23 @@ export class UserService {
     photo: string;
     email: string;
     password: string;
-    source: InviteSourceEnum;
   }) {
     try {
       const password = await hashPassword(userInfo.password);
-      // const user = User.create({ ...userInfo, password });
-      // return await this.userRepository.save(user);
+      const org = await this.organizationService.createNewOrg({
+        name: 'new organization',
+      });
+      const permission = await this.permissionService.createAdmin();
+      const source = this.getUserSource();
+
+      const user = User.create({
+        ...userInfo,
+        password,
+        permission: [permission],
+        organization: [org],
+        source,
+      });
+      return await this.userRepository.save(user);
     } catch (error) {
       throw new AlreadyInDB('Email already exists');
     }

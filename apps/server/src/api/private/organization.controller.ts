@@ -1,4 +1,4 @@
-import { Controller, Get, Post, UseGuards } from '@nestjs/common';
+import { Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
 import { SessionGuard } from '../../session/session.gaurd';
 
 /**
@@ -20,6 +20,8 @@ export class OrganizationController {
   async inviteUser() {}
 
   @UseGuards(SessionGuard)
-  @Get('get-orgs')
-  async getOrgs() {}
+  @Get('get-orgs/:userId')
+  async getOrgs(@Param('userId') userId: string) {
+    console.log({ userId });
+  }
 }

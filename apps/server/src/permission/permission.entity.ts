@@ -23,12 +23,10 @@ export class Permission {
 
   @Exclude()
   @ManyToMany(() => User, (user) => user.permission)
-  @JoinTable({ name: 'permission_user' })
   user: User[];
 
   @Exclude()
   @ManyToMany(() => Organization, (org) => org.permission)
-  @JoinTable({ name: 'permission_organization' })
   organization: Organization[];
 
   @Exclude()
@@ -38,4 +36,17 @@ export class Permission {
   @Exclude()
   @UpdateDateColumn({ default: () => 'now()', name: 'updated_at' })
   updatedAt: Date;
+
+  static create(permissionInfo: {
+    organization?: Organization[];
+    type: PermissionType;
+    user?: User[];
+  }) {
+    const permission = new Permission();
+    permission.organization = permissionInfo?.organization;
+    permission.type = permissionInfo.type;
+    permission.user = permissionInfo?.user;
+
+    return permission;
+  }
 }

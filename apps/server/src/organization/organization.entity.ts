@@ -10,6 +10,7 @@ import {
 import { Exclude } from 'class-transformer';
 import { User } from '../user/user.entity';
 import { Permission } from '../permission/permission.entity';
+import { randomUUID } from 'crypto';
 
 @Entity({ name: 'organization' })
 export class Organization {
@@ -28,7 +29,7 @@ export class Organization {
   @CreateDateColumn({ default: () => 'now()', name: 'created_at' })
   createdAt: Date;
 
-  @Column({ name: 'invite_token' })
+  @Column({ name: 'invite_token', default: randomUUID(), nullable: false })
   invitationToken: string;
 
   @Exclude()
@@ -36,17 +37,18 @@ export class Organization {
   updatedAt: Date;
 
   @ManyToMany(() => Permission, (permission) => permission.organization)
+  @JoinTable({ name: 'permission_organization' })
   permission: Permission[];
 
-  @ManyToMany(() => User)
+  @ManyToMany(() => User, (user) => user.organization)
   @JoinTable({ name: 'org_user' })
-  users: User[];
+  user: User[];
 
   static create(org: { name: string; user?: User[] }) {
     const organization = new Organization();
     organization.name = org.name;
     organization.domain = '';
-    organization.users = org.user;
+    organization.user = org.user;
     return organization;
   }
 }

@@ -6,9 +6,23 @@ import { UserService } from '../user/user.service';
 import { UserModule } from '../user/user.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from '../user/user.entity';
+import { Permission } from '../permission/permission.entity';
+import { Organization } from '../organization/organization.entity';
+import { PermissionService } from '../permission/permission.service';
+import { OrganizationService } from '../organization/organization.service';
 
 @Module({
-  providers: [AuthService, LocalStrategy, UserService],
-  imports: [UserModule, PassportModule, TypeOrmModule.forFeature([User])],
+  providers: [
+    AuthService,
+    LocalStrategy,
+    UserService,
+    PermissionService,
+    OrganizationService,
+  ],
+  imports: [
+    UserModule,
+    PassportModule,
+    TypeOrmModule.forFeature([User, Permission, Organization]),
+  ],
 })
 export class AuthModule {}
