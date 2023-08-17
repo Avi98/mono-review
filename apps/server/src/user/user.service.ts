@@ -4,9 +4,10 @@ import { User } from './user.entity';
 import { Repository } from 'typeorm';
 import { InviteSourceEnum } from '../utils/enums/InviteSourceEnum';
 import { hashPassword } from '../utils/hash';
-import { AlreadyInDB } from '../exceptions/errors';
+import { AlreadyInDB, NotInDB } from '../exceptions/errors';
 import { PermissionService } from '../permission/permission.service';
 import { OrganizationService } from '../organization/organization.service';
+import { PermissionType } from '../permission/permission.entity';
 
 @Injectable()
 export class UserService {
@@ -17,13 +18,11 @@ export class UserService {
   ) {}
 
   async getUserByEmail(userEmail) {
-    const a = await this.userRepository.findOne({
+    const user = await this.userRepository.findOne({
       where: { email: userEmail },
     });
-    return a?.email;
+    return user;
   }
-
-  async activateUser(userId) {}
 
   //@todo after  session implementation
   getUserSource(): InviteSourceEnum {
@@ -32,6 +31,38 @@ export class UserService {
 
   async findUserByEmail(email: string) {
     return await this.userRepository.findOneBy({ email });
+  }
+
+  async getUserById(userId: string) {
+    return await this.userRepository.findOne({
+      where: {
+        id: Number(userId),
+      },
+    });
+  }
+
+  async createNewOrg(orgInfo: {
+    orgName: string;
+    userId: string;
+    role: PermissionType;
+  }) {
+    const org = await this.organizationService.createNewOrg({
+      name: orgInfo.orgName,
+      userId: orgInfo.userId,
+    });
+    const user = await this.userRepository.findOne({
+      where: {
+        id: Number(orgInfo.userId),
+      },
+      relations: ['organization'],
+    });
+
+    if (!user) throw new NotInDB(`${orgInfo.userId} not found`);
+    if (user.organization.find((org) => org.name === orgInfo.orgName))
+      throw new AlreadyInDB(`${orgInfo.orgName} already exists`);
+
+    user.organization.push(org);
+    return await this.userRepository.save(user);
   }
 
   async createNewUser(userInfo: {
@@ -61,5 +92,15 @@ export class UserService {
     } catch (error) {
       throw new AlreadyInDB('Email already exists');
     }
+  }
+
+  async getUserOrgPermission(userId: string, orgId: string) {
+    return await this.userRepository
+      .createQueryBuilder('user')
+      .leftJoinAndSelect('user.organization', 'organization')
+      .where('user.id = :id', { id: userId })
+      .where('organization.id = :orgId', { orgId })
+      .leftJoinAndSelect('user.permission', 'permission')
+      .getMany();
   }
 }

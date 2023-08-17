@@ -1,10 +1,11 @@
 import {
+  ClassSerializerInterceptor,
   Controller,
   Get,
-  Param,
   Req,
   UnauthorizedException,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
 import { SessionGuard } from '../../session/session.gaurd';
 import { UserService } from '../../user/user.service';
@@ -13,20 +14,22 @@ import { UserService } from '../../user/user.service';
 export class UserController {
   constructor(private userService: UserService) {}
 
+  @UseInterceptors(ClassSerializerInterceptor)
   @UseGuards(SessionGuard)
   @Get('me')
   async getMe(@Req() req) {
-    const email = req.email;
+    const email = req.session.email;
     if (!email) throw new UnauthorizedException('User session not found');
 
     return await this.userService.getUserByEmail(email);
   }
 
-  @UseGuards(SessionGuard)
-  @Get('active-user/:userId')
-  async getActiveUser(@Param('userId') userId: string) {
-    return await this.userService.activateUser(userId);
-  }
+  //@todo this should be inside org.controller to get all active user
+  // @UseGuards(SessionGuard)
+  // @Get('active-user/:userId')
+  // async getActiveUser(@Param('userId') userId: string) {
+  //   return await this.userService.getAllActiveUser(userId);
+  // }
 
   @UseGuards(SessionGuard)
   @Get('in-active-user')
