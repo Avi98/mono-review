@@ -18,6 +18,10 @@ export const mapOfErrorToHTTPError = new Map([
     'InValidUserSession',
     (object): HttpException => new UnauthorizedException(object),
   ],
+  [
+    'InValidRoleType',
+    (object): HttpException => new BadRequestException(object),
+  ],
 ]);
 
 @Catch()

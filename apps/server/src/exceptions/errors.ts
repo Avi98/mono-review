@@ -10,3 +10,6 @@ export class InValidPayload extends Error {
 export class InValidUserSession extends Error {
   name = 'InValidUserSession';
 }
+export class InValidRoleType extends Error {
+  name = 'InValidRoleType';
+}
