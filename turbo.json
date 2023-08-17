@@ -13,6 +13,12 @@
       "dependsOn": ["^build"],
       "cache": false
     },
+    "@pr/server#db:migration:run": {
+      "dependsOn": ["^build"]
+    },
+    "@pr/server#db:migration:create": {
+      "dependsOn": ["^build"]
+    },
     "test": {}
   }
 }
