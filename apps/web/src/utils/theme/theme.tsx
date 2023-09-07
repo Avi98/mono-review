@@ -1,5 +1,3 @@
-"use client";
-
 import { memo, useCallback, useEffect, useMemo, useState } from "react";
 import { ThemeContext, useTheme } from "./use-theme";
 
@@ -7,7 +5,7 @@ type ThemeType = "system" | "light" | "dark";
 
 export const ThemeProvider: React.FC<{
   children: React.ReactNode;
-  defaultTheme: ThemeType;
+  defaultTheme?: ThemeType;
 }> = (props) => {
   const [theme, setTheme] = useState(
     () => getLocalStorageTheme() || props.defaultTheme

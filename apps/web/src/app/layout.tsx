@@ -1,5 +1,5 @@
+import { Provider } from "../components/provider/theme-provider";
 import "../styles/global.css";
-import { ThemeProvider } from "../utils/theme/ThemeProvider";
 import { Inter } from "next/font/google";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -16,8 +16,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head></head>
       <body className={inter.className}>
-        <ThemeProvider defaultTheme="system">{children}</ThemeProvider>
+        <Provider>{children}</Provider>
       </body>
     </html>
   );
