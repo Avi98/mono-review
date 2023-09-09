@@ -9,6 +9,7 @@ import { PermissionService } from '../permission/permission.service';
 import { OrganizationService } from '../organization/organization.service';
 import { PermissionType } from '../permission/permission.entity';
 
+
 @Injectable()
 export class UserService {
   constructor(
@@ -64,6 +65,7 @@ export class UserService {
     user.organization.push(org);
     return await this.userRepository.save(user);
   }
+
 
   async createNewUser(userInfo: {
     firstName: string;

@@ -4,6 +4,7 @@ import { Organization } from './organization.entity';
 import { Repository } from 'typeorm';
 import { AlreadyInDB } from '../exceptions/errors';
 
+
 @Injectable()
 export class OrganizationService {
   constructor(
@@ -19,6 +20,7 @@ export class OrganizationService {
       if (orgNameExists.length)
         throw new AlreadyInDB(`Organization name ${info.name} already exists`);
     }
+
 
     const organization = Organization.create(info);
     return await this.orgRepository.save(organization);

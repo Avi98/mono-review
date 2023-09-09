@@ -11,6 +11,7 @@ import {
 import { Permission } from '../permission/permission.entity';
 import { Organization } from '../organization/organization.entity';
 
+
 @Entity()
 export class User {
   @PrimaryGeneratedColumn()
@@ -69,6 +70,7 @@ export class User {
   @ManyToMany(() => Organization, (org) => org.user)
   organization: Organization[];
 
+
   static create(userInfo: {
     firstName: string;
     lastName: string;
@@ -77,6 +79,7 @@ export class User {
     password: string;
     username: string;
     permission: Permission[];
+
     source: 'invite' | 'google' | 'git' | 'azure' | 'email';
     organization: Organization[];
   }) {
@@ -90,6 +93,7 @@ export class User {
     user.username = userInfo.username;
     user.permission = userInfo.permission;
     user.organization = userInfo.organization;
+
     return user;
   }
 }

@@ -14,10 +14,14 @@ import { UserService } from '../../../user/user.service';
 import { LocalAuthGuard } from '../../../auth/local.strategy';
 import { LoginInfoDto } from '../../../user/login-info.dto';
 import { SessionGuard } from '../../../session/session.gaurd';
+import { OrganizationService } from '../../../organization/organization.service';
+import { OrganizationUserService } from '../../../organization-user/organization-user.service';
+import { UserStatusEnum } from '../../../utils/enums/UserStatusEnum';
 
 @Controller('auth')
 export class AuthController {
   constructor(private userService: UserService) {}
+
 
   @UseGuards(LocalAuthGuard)
   @Post('/login')
@@ -45,5 +49,6 @@ export class AuthController {
     const user = await this.userService.createNewUser(userInfo);
 
     return user;
+
   }
 }
