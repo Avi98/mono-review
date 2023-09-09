@@ -1,11 +1,6 @@
-import {
-  CanActivate,
-  ExecutionContext,
-  Injectable,
-  UnauthorizedException,
-} from '@nestjs/common';
+import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { UserService } from '../user/user.service';
-import { NotInDB } from '../exceptions/errors';
+import { InValidUserSession, NotInDB } from '../exceptions/errors';
 
 @Injectable()
 export class SessionGuard implements CanActivate {
@@ -13,14 +8,15 @@ export class SessionGuard implements CanActivate {
 
   async canActivate(context: ExecutionContext) {
     const request = context.switchToHttp().getRequest();
-    if (!request.session) throw new UnauthorizedException('Session not found');
+    if (!request.session || !request.session.email)
+      throw new InValidUserSession('Session not found');
 
     try {
       await this.userService.getUserByEmail(request.session.email);
       return true;
     } catch (error) {
       if (error instanceof NotInDB) {
-        throw new UnauthorizedException('User session is not valid');
+        throw new InValidUserSession('User session is not valid');
       }
       throw error;
     }

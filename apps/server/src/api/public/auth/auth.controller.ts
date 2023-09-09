@@ -10,7 +10,6 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { RegisterUserDto } from '../../../user/user-info.dto';
-import { AuthService } from '../../../auth/auth.service';
 import { UserService } from '../../../user/user.service';
 import { LocalAuthGuard } from '../../../auth/local.strategy';
 import { LoginInfoDto } from '../../../user/login-info.dto';
@@ -21,16 +20,13 @@ import { UserStatusEnum } from '../../../utils/enums/UserStatusEnum';
 
 @Controller('auth')
 export class AuthController {
-  constructor(
-    private authService: AuthService,
-    private userService: UserService,
-    private orgUserService: OrganizationUserService,
-    private orgService: OrganizationService,
-  ) {}
+  constructor(private userService: UserService) {}
+
 
   @UseGuards(LocalAuthGuard)
   @Post('/login')
   async login(@Req() req, @Body() userInfo: LoginInfoDto) {
+    //because localAuthGuard will handle the write and read
     req.session.email = userInfo.email;
   }
 
@@ -50,19 +46,9 @@ export class AuthController {
   @UseInterceptors(ClassSerializerInterceptor)
   @Post('/signup')
   async signup(@Body() userInfo: RegisterUserDto) {
-    const source = this.userService.getUserSource();
-    const user = await this.userService.createNewUser({ ...userInfo, source });
-    const organization = await this.orgService.createNewOrg({
-      name: 'new organization',
-    });
-    const org_user = this.orgUserService.createUserOrg({
-      name: 'new organization',
-      invitationToken: '12121',
-      organization,
-      status: UserStatusEnum.ACTIVE,
-      user,
-    });
+    const user = await this.userService.createNewUser(userInfo);
 
-    console.log({ org_user });
+    return user;
+
   }
 }

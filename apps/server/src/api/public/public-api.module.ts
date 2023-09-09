@@ -5,18 +5,13 @@ import { AuthService } from '../../auth/auth.service';
 import { UserService } from '../../user/user.service';
 import { User } from '../../user/user.entity';
 import { OrganizationService } from '../../organization/organization.service';
-import { OrganizationUserService } from '../../organization-user/organization-user.service';
-import { Organization } from '../../organization/organization.entitiy';
-import { OrganizationUser } from '../../organization-user/organization-user.enitiy';
+import { Organization } from '../../organization/organization.entity';
+import { PermissionService } from '../../permission/permission.service';
+import { Permission } from '../../permission/permission.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([User, Organization, OrganizationUser])],
-  providers: [
-    AuthService,
-    UserService,
-    OrganizationService,
-    OrganizationUserService,
-  ],
+  imports: [TypeOrmModule.forFeature([User, Organization, Permission])],
+  providers: [AuthService, UserService, OrganizationService, PermissionService],
   controllers: [AuthController],
 })
 export class PublicApiModule {}
