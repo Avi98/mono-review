@@ -7,6 +7,7 @@ module.exports = {
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
+  darkMode: ["class"],
   theme: {
     extend: {
       backgroundImage: {
@@ -16,7 +17,8 @@ module.exports = {
       },
       colors: {
         border: "hsl(var(--border))",
-        input: "hsl(var(--input))",
+        white: "hsl(var(--input))",
+        primaryGreen: "hsl(var(--primary-green))",
         ring: "hsl(var(--ring))",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
