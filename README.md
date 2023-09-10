@@ -4,21 +4,21 @@
 
 - [x] Login
 - [ ] Login api hook
-- [ ] signUp
-- [ ] signUp
+- [x] signUp
+- [ ] signUp api
 - [ ] responsive layout
 - [ ] organization - signUp
   - [ ] user can sign up from the email invite
-- [ ] Projects/Repos
-
-  - [ ] Project/Repos CRUD based on the user role
-  - [ ] -- 🤷 --
-
 - [ ] email service
 
   - [ ] AWS SES for sending mail
   - [ ] email service rabbit mq(or pub-sub)
   - [ ] react-mail for email template
+
+- [ ] Projects/Repos
+
+  - [ ] Project/Repos CRUD based on the user role
+  - [ ] -- 🤷 --
 
 - [ ] Repo Dashboard
 
