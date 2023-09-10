@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Card } from "../../../components/card/card";
+import { Card, CardBody } from "../../../components/card/card";
 import { LoginForm } from "./components/login-form";
 
 const Login = () => {
@@ -8,22 +8,21 @@ const Login = () => {
     <div className="grid h-screen w-screen place-items-center">
       <div className="relative flex-col justify-center">
         <Card>
-          <div className="bg-card flex flex-col justify-between gap-5">
-            <div className=" flex flex-col items-center justify-center gap-2 align-middle">
-              <h1 className="text-2xl font-semibold">Welcome back</h1>
-              <p className="text-sm font-light">
-                Enter your email to sign in to your account
-              </p>
-            </div>
+          <CardBody
+            header="Welcome back"
+            subHeader="Enter your email to sign in to your account"
+          >
             <LoginForm />
-            <p className="">
-              {`Don't have a account yet?`}
-              &nbsp;
-              <Link href="/signUp" className={newLocal}>
-                SignUp
+            <p className="pt-3">
+              {`Don't have account yet?`}&nbsp;
+              <Link
+                href={"/sign-up"}
+                className="font-semibold decoration-sky-500 hover:underline hover:underline-offset-8"
+              >
+                Sign Up
               </Link>
             </p>
-          </div>
+          </CardBody>
         </Card>
       </div>
     </div>
