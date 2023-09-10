@@ -2,14 +2,14 @@ import React, { ButtonHTMLAttributes } from "react";
 import { cva, VariantProps } from "class-variance-authority";
 
 const button = cva(
-  "inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus:ring",
+  "inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus:ring ",
   {
     variants: {
       variant: {
         default: "bg-primary text-primary-foreground hover:bg-primary/90",
         plain: "text-primary hover:text-primary/80 hover:underline",
         outline:
-          "border border-white text-primary-foreground hover:bg-accent hover:text-accent-foreground",
+          "border bg-accent text-accent-foreground hover:bg-accent hover:text-accent-foreground",
         primary:
           "bg-primaryGreen text-primary-foreground hover:bg-primaryGreen/90",
 
@@ -35,10 +35,10 @@ interface ButtonProps
 }
 
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, ...props }, ref) => {
+  ({ className, variant, size, ...props }, ref) => {
     return (
       <button
-        className={button({ className, variant })}
+        className={button({ className, variant, size })}
         ref={ref}
         {...props}
       ></button>
