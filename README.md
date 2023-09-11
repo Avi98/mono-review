@@ -6,8 +6,9 @@
 - [ ] Login api hook
 - [x] signUp
 - [ ] signUp api
-- [ ] responsive layout
+- [x] responsive layout
 - [ ] organization - signUp
+  - [ ] organization user invite ui
   - [ ] user can sign up from the email invite
 - [ ] email service
 
