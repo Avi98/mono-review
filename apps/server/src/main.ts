@@ -8,7 +8,11 @@ import { ExceptionFilter } from './exceptions/exceptionhandler';
 import { NestExpressApplication } from '@nestjs/platform-express';
 
 async function bootstrap() {
-  const app = await NestFactory.create<NestExpressApplication>(AppModule);
+  const app = await NestFactory.create<NestExpressApplication>(AppModule, {
+    cors: {
+      origin: '*',
+    },
+  });
   const appConfig = app.get(ConfigService);
 
   const sessionStore = app.get(SessionService).getTypeormStore();
