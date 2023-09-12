@@ -1,3 +1,4 @@
+import { QueryProvider } from "../components/provider/query-provider";
 import { Provider } from "../components/provider/theme-provider";
 import "../styles/global.css";
 import { Inter } from "next/font/google";
@@ -18,7 +19,9 @@ export default function RootLayout({
     <html lang="en" className="light" suppressHydrationWarning>
       <head></head>
       <body className={inter.className}>
-        <Provider>{children}</Provider>
+        <Provider>
+          <QueryProvider>{children}</QueryProvider>
+        </Provider>
       </body>
     </html>
   );

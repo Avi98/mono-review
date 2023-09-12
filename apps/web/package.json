@@ -9,7 +9,9 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@tanstack/react-query": "^4.35.0",
     "@types/node": "20.3.2",
+    "@pr/common": "workspace:*",
     "@types/react": "18.2.14",
     "@types/react-dom": "18.2.6",
     "autoprefixer": "10.4.14",
@@ -25,6 +27,7 @@
     "zod": "^3.22.2"
   },
   "devDependencies": {
+    "@tanstack/eslint-plugin-query": "^4.34.1",
     "eslint-config-next": "13.0.0",
     "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-react": "^7.33.2",
