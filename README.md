@@ -3,10 +3,12 @@
 ### Roadmap
 
 - [x] Login
-- [ ] Login api hook
+- [x] Login api hook
 - [x] signUp
 - [ ] signUp api
-- [x] responsive layout
+- [ ] toast for notification component
+- [ ] API request builder for request and response
+- [ ] responsive layout
 - [ ] organization - signUp
   - [ ] organization user invite ui
   - [ ] user can sign up from the email invite

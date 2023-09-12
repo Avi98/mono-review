@@ -16,6 +16,7 @@ const castEnv = <T = string>({
 
 export const env = {
   port_BE: process.env.BE_PORT,
+  endpoint_BE: process.env.BE_ENDPOINT,
   imageId: process.env.IMAGE_ID,
   imageType: process.env.IMAGE_TYPE,
   region: process.env.REGION,
