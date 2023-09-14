@@ -7,7 +7,7 @@
 - [x] signUp
 - [ ] signUp api
 - [ ] toast for notification component
-- [ ] API request builder for request and response
+- [x] API request builder for request and response
 - [ ] responsive layout
 - [ ] organization - signUp
   - [ ] organization user invite ui
