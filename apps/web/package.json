@@ -9,15 +9,17 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@pr/common": "workspace:*",
+    "@radix-ui/react-toast": "^1.1.4",
     "@tanstack/react-query": "^4.35.0",
     "@types/node": "20.3.2",
-    "@pr/common": "workspace:*",
     "@types/react": "18.2.14",
     "@types/react-dom": "18.2.6",
     "autoprefixer": "10.4.14",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
     "eslint": "8.43.0",
+    "lucide-react": "^0.276.0",
     "next": "^13.4.7",
     "postcss": "8.4.24",
     "react": "18.2.0",
