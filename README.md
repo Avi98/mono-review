@@ -35,3 +35,7 @@
 - [ ] Analytics
 
 **Miro [Link](https://miro.com/app/board/uXjVMLHijZw=/?share_link_id=947536122154)**
+
+### Azure task
+
+Azure devops (custom task)[https://github.com/Avi98/my_pullRequest_azure-task/tree/master] for creating pipeline
