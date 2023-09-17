@@ -6,7 +6,7 @@
 - [x] Login api hook
 - [x] signUp
 - [ ] signUp api
-- [ ] toast for notification component
+- [x] toast for notification component
 - [x] API request builder for request and response
 - [ ] responsive layout
 - [ ] organization - signUp
