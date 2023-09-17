@@ -1,32 +1,32 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { SERVER_ENDPOINT } from "./contants";
+import { PostRequestBuilder } from "./common/post-reqest-builder";
+import { DeleteRequestBuilder } from "./common/delete-request-builder";
 
-const login = (payload: { email: string; password: string }) =>
-  fetch(`${SERVER_ENDPOINT}/auth/login`, {
-    body: JSON.stringify(payload),
-    headers: {
-      "Content-Type": "application/json",
-    },
-    method: "POST",
-  });
+const login = async (payload: { email: string; password: string }) => {
+  const getRequest = new PostRequestBuilder("auth/login", SERVER_ENDPOINT);
 
-const signup = (payload: {
+  getRequest.withBody(payload);
+  return await getRequest.sendRequest();
+};
+
+const signup = async (payload: {
   email: string;
   username: string;
   lastName: string;
   photo: string;
   password: string;
-}) =>
-  fetch(`${SERVER_ENDPOINT}/auth/signup`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(payload),
-  });
+}) => {
+  const getRequest = new PostRequestBuilder("auth/signup", SERVER_ENDPOINT);
+  getRequest.withBody(payload);
 
-const logout = () =>
-  fetch(`${SERVER_ENDPOINT}/auth/logout`, { method: "DELETE" });
+  return await getRequest.sendRequest();
+};
+
+const logout = async () => {
+  const deleteToken = new DeleteRequestBuilder("auth/logout", SERVER_ENDPOINT);
+  return await deleteToken.sendRequest();
+};
 
 export const useLogin = ({
   onError,
