@@ -10,9 +10,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema, type LoginFormType } from "../../../../../schema/login";
 
 export const LoginForm = () => {
-  const [email, setEmail] = React.useState("");
-  const [password, setPassword] = React.useState("");
-
   const { mutate: login } = useLogin({
     onSuccess: () => {
       toast({
