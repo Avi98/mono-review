@@ -21,10 +21,11 @@ export const LoginForm = () => {
         variant: "success",
       });
     },
-    onError: () => {
+    onError: (error) => {
+      console.log({ meesa: error });
       toast({
         desc: "Login failed",
-        title: "Please enter the correct password",
+        title: error.message || "Something went wrong",
         variant: "error",
       });
     },
