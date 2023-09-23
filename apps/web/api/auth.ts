@@ -2,6 +2,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { SERVER_ENDPOINT } from "./contants";
 import { PostRequestBuilder } from "./common/post-reqest-builder";
 import { DeleteRequestBuilder } from "./common/delete-request-builder";
+import { SignUpFormSchemaType } from "../schema/signup";
 
 const login = async (payload: { email: string; password: string }) => {
   const getRequest = new PostRequestBuilder("auth/login", SERVER_ENDPOINT);
@@ -9,15 +10,11 @@ const login = async (payload: { email: string; password: string }) => {
   return getRequest.withBody(payload).sendRequest();
 };
 
-const signup = async (payload: {
-  email: string;
-  username: string;
-  lastName: string;
-  photo: string;
-  password: string;
-}) => {
+const signup = async (
+  payload: Omit<SignUpFormSchemaType, "confirmPassword">
+) => {
   const getRequest = new PostRequestBuilder("auth/signup", SERVER_ENDPOINT);
-  return await getRequest.withBody(payload).sendRequest();
+  return await getRequest.withBody({ ...payload, photo: "" }).sendRequest();
 };
 
 const logout = async () => {
@@ -57,7 +54,7 @@ export const useSignup = ({
   onError,
   onSuccess,
 }: {
-  onError: VoidFunction;
+  onError: (e: Error) => void;
   onSuccess: VoidFunction;
 }) => {
   return useMutation({
