@@ -21,5 +21,4 @@ const typeormConfig: DataSourceOptions = {
   },
 };
 
-console.log({ typeormConfig });
 export default new DataSource(typeormConfig);

@@ -31,7 +31,6 @@ export class ExceptionFilter extends BaseExceptionFilter {
   }
 
   static transformLocalErrors(error: Error): Error {
-    console.log({ errorCaught: error });
     const errorConst = mapOfErrorToHTTPError.get(error.name);
     if (!errorConst) return error;
 

@@ -22,7 +22,6 @@ export const LoginForm = () => {
       });
     },
     onError: (error) => {
-      console.log({ meesa: error });
       toast({
         desc: "Login failed",
         title: error.message || "Something went wrong",
