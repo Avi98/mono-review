@@ -25,6 +25,6 @@ export class OrganizationController {
   @UseGuards(SessionGuard)
   @Get('get-orgs/:userId')
   async getOrgs(@Param('userId') userId: string) {
-    console.log({ userId });
+    ({ userId });
   }
 }
