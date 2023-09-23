@@ -6,8 +6,7 @@ import { DeleteRequestBuilder } from "./common/delete-request-builder";
 const login = async (payload: { email: string; password: string }) => {
   const getRequest = new PostRequestBuilder("auth/login", SERVER_ENDPOINT);
 
-  getRequest.withBody(payload);
-  return await getRequest.sendRequest();
+  return getRequest.withBody(payload).sendRequest();
 };
 
 const signup = async (payload: {
@@ -18,9 +17,7 @@ const signup = async (payload: {
   password: string;
 }) => {
   const getRequest = new PostRequestBuilder("auth/signup", SERVER_ENDPOINT);
-  getRequest.withBody(payload);
-
-  return await getRequest.sendRequest();
+  return await getRequest.withBody(payload).sendRequest();
 };
 
 const logout = async () => {
@@ -32,7 +29,7 @@ export const useLogin = ({
   onError,
   onSuccess,
 }: {
-  onError: VoidFunction;
+  onError: (e: Error) => void;
   onSuccess: VoidFunction;
 }) => {
   return useMutation({

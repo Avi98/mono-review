@@ -1,5 +1,6 @@
 import { QueryProvider } from "../components/provider/query-provider";
-import { Provider } from "../components/provider/theme-provider";
+import { Provider as ThemeProvider } from "../components/provider/theme-provider";
+import { Toaster } from "../components/toast/toast";
 import "../styles/global.css";
 import { Inter } from "next/font/google";
 
@@ -19,9 +20,10 @@ export default function RootLayout({
     <html lang="en" className="light" suppressHydrationWarning>
       <head></head>
       <body className={inter.className}>
-        <Provider>
+        <ThemeProvider>
           <QueryProvider>{children}</QueryProvider>
-        </Provider>
+          <Toaster />
+        </ThemeProvider>
       </body>
     </html>
   );
