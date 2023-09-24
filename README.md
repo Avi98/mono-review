@@ -10,9 +10,21 @@
 - [x] API request builder for request and response
 - [ ] responsive layout
 - [ ] ES module support for (common package)[https://github.com/Avi98/my_pullRequest/issues/53]
+- [ ] Dashboard
+
+  - [ ] invite user
+  - [ ] (view all users)[https://miro.com/app/board/uXjVMLHijZw=/?moveToWidget=3458764564773530009&cot=14]
+
+- [ ] sign up
+
+  - [ ] onboarding
+  - [ ] skip the route
+
 - [ ] organization - signUp
   - [ ] organization user invite ui
   - [ ] user can sign up from the email invite
+- [ ] not-found page
+- [ ] error page
 - [ ] email service
 
   - [ ] AWS SES for sending mail
@@ -40,3 +52,7 @@
 ### Azure task
 
 Azure devops (custom task)[https://github.com/Avi98/my_pullRequest_azure-task/tree/master] for creating pipeline
+
+### Images/illustration
+
+(Link)[https://undraw.co/illustrations]
