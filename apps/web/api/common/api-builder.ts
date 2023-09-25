@@ -1,4 +1,4 @@
-import { UnAuthorizedError } from "./error";
+import { UnAuthorizedError } from "../../src/utils/exceptions";
 
 abstract class BaseApiBuilder<ResponseType> {
   private targetUrl: string;

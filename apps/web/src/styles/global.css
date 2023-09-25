@@ -3,6 +3,7 @@
 @tailwind utilities;
 
 @layer base {
+  font-sizes: 10px;
   :root {
     --background: 0 0% 100%;
     --foreground: 222.2 47.4% 11.2%;
@@ -12,6 +13,8 @@
 
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 47.4% 11.2%;
+
+    --header: 0 0% 89.39%;
 
     --border: 214.3 31.8% 91.4%;
     --white: 214.3 31.8% 91.4%;
@@ -38,6 +41,8 @@
   .dark {
     --background: 224 71% 4%;
     --foreground: 213 31% 91%;
+
+    --header: 0 0% 12.88%;
 
     --muted: 223 47% 11%;
     --muted-foreground: 215.4 16.3% 56.9%;
@@ -87,6 +92,8 @@
   }
   body {
     @apply bg-background text-foreground;
-    font-feature-settings: "rlig" 1, "calt" 1;
+    font-feature-settings:
+      "rlig" 1,
+      "calt" 1;
   }
 }
