@@ -12,7 +12,7 @@ export const SignOutButton = () => {
   }, [router]);
 
   return (
-    <Button type="button" variant={"outline"} size={"sm"} onClick={signOut}>
+    <Button type="button" variant={"default"} size={"sm"} onClick={signOut}>
       Sign Out
     </Button>
   );
