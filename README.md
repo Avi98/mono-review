@@ -57,3 +57,6 @@ Azure devops (custom task)[https://github.com/Avi98/my_pullRequest_azure-task/tr
 ### Images/illustration
 
 (Link)[https://undraw.co/illustrations]
+
+### ER diagram
+https://app.eraser.io/workspace/UXGrzZRMaHcffie2wWQ8
