@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 @layer base {
-  font-sizes: 10px;
+  /* font-sizes: 10px; */
   :root {
     --background: 0 0% 100%;
     --foreground: 222.2 47.4% 11.2%;
@@ -16,7 +16,8 @@
 
     --header: 0 0% 89.39%;
 
-    --border: 214.3 31.8% 91.4%;
+    --border: 0 0% 90%;
+
     --white: 214.3 31.8% 91.4%;
 
     /* GREEN #007a5c */
@@ -44,6 +45,8 @@
 
     --header: 0 0% 12.88%;
 
+    --border: 0 0% 32%;
+
     --muted: 223 47% 11%;
     --muted-foreground: 215.4 16.3% 56.9%;
 
@@ -65,7 +68,6 @@
     --popover: 224 71% 4%;
     --popover-foreground: 215 20.2% 65.1%;
 
-    --border: 216 34% 17%;
     --white: 216 34% 17%;
 
     /* GREEN #007a5c */
@@ -83,17 +85,5 @@
     --ring: 216 34% 17%;
 
     --radius: 0.5rem;
-  }
-}
-
-@layer base {
-  * {
-    @apply border-border;
-  }
-  body {
-    @apply bg-background text-foreground;
-    font-feature-settings:
-      "rlig" 1,
-      "calt" 1;
   }
 }

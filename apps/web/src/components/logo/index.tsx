@@ -7,7 +7,7 @@ interface ILogoIcon extends HTMLAttributes<HTMLDivElement> {}
 export const LogoIcon = ({ className, ...props }: ILogoIcon) => (
   <div
     className={cn(
-      "flex h-10 w-40 cursor-pointer justify-center align-middle",
+      "flex h-10 w-40 cursor-pointer justify-start align-middle",
       className
     )}
     {...props}

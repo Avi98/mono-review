@@ -3,6 +3,7 @@ import { Provider as ThemeProvider } from "../components/provider/theme-provider
 import { Toaster } from "../components/toast/toast";
 import "../styles/global.css";
 import { Inter } from "next/font/google";
+import SideBarProvider from "../components/provider/side-bar-provider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,7 +22,9 @@ export default function RootLayout({
       <head></head>
       <body className={inter.className}>
         <ThemeProvider>
-          <QueryProvider>{children}</QueryProvider>
+          <SideBarProvider>
+            <QueryProvider>{children}</QueryProvider>
+          </SideBarProvider>
           <Toaster />
         </ThemeProvider>
       </body>
