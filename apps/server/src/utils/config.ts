@@ -38,7 +38,7 @@ export function dbConfig(): TypeOrmModuleOptions {
     autoLoadEntities: true,
     synchronize: env.isDev ? true : false,
     migrations: [__dirname + '/migrations/**/*{.ts,.js}'],
-    logging: env.isDev ? true : false,
+    logging: false,
     extra: {
       max: 25,
     },

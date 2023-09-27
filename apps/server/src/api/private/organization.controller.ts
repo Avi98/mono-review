@@ -20,7 +20,9 @@ export class OrganizationController {
 
   @UseGuards(SessionGuard)
   @Post('invite-user')
-  async inviteUser() {}
+  async inviteUser() {
+    // @TODO
+  }
 
   @UseGuards(SessionGuard)
   @Get('get-orgs/:userId')
