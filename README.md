@@ -8,6 +8,7 @@
 - [x] signUp api
 - [x] toast for notification component
 - [x] API request builder for request and response
+- [ ] list members
 - [ ] responsive layout
 - [ ] ES module support for (common package)[https://github.com/Avi98/my_pullRequest/issues/53]
 - [ ] Dashboard
@@ -56,3 +57,6 @@ Azure devops (custom task)[https://github.com/Avi98/my_pullRequest_azure-task/tr
 ### Images/illustration
 
 (Link)[https://undraw.co/illustrations]
+
+### ER diagram
+https://app.eraser.io/workspace/UXGrzZRMaHcffie2wWQ8

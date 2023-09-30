@@ -3,13 +3,15 @@ import {
   CreateDateColumn,
   Entity,
   JoinColumn,
+  JoinTable,
   ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { UserStatusEnum } from '../utils/enums/UserStatusEnum';
 import { User } from '../user/user.entity';
-import { Organization } from '../organization/organization.entitiy';
+import { UserOrgRoleEnum } from '../utils/enums/UserOrgRoleEnum';
+import { Organization } from '../organization/organization.entity';
 
 @Entity({ name: 'org_user' })
 export class OrganizationUser {
@@ -27,18 +29,24 @@ export class OrganizationUser {
   @Column()
   invitationToken: string;
 
+  @Column({
+    type: 'enum',
+    enumName: 'role',
+    enum: UserOrgRoleEnum,
+    default: UserOrgRoleEnum.MEMBER,
+  })
+  role: UserOrgRoleEnum;
+
   @CreateDateColumn({ default: () => 'now()', name: 'created_at' })
   createdAt: Date;
 
   @UpdateDateColumn({ default: () => 'now()', name: 'update_at' })
   updatedAt: Date;
 
-  @ManyToOne(() => User, (user) => user.id)
-  @JoinColumn({ name: 'user_id' })
+  @ManyToOne(() => User, (user) => user.org_user)
   user: User;
 
-  @ManyToOne(() => Organization, (org) => org.id)
-  @JoinColumn({ name: 'org_id' })
+  @ManyToOne(() => Organization, (org) => org.org_user)
   organization: Organization;
 
   static create(orgUserInfo: {

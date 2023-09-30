@@ -4,18 +4,14 @@ import { User } from './user.entity';
 import { Repository } from 'typeorm';
 import { InviteSourceEnum } from '../utils/enums/InviteSourceEnum';
 import { hashPassword } from '../utils/hash';
-import { AlreadyInDB, NotInDB } from '../exceptions/errors';
+import { AlreadyInDB } from '../exceptions/errors';
 import { PermissionService } from '../permission/permission.service';
-import { OrganizationService } from '../organization/organization.service';
-import { PermissionType } from '../permission/permission.entity';
-
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectRepository(User) private userRepository: Repository<User>,
     private permissionService: PermissionService,
-    private organizationService: OrganizationService,
   ) {}
 
   async getUserByEmail(userEmail) {
@@ -42,31 +38,6 @@ export class UserService {
     });
   }
 
-  async createNewOrg(orgInfo: {
-    orgName: string;
-    userId: string;
-    role: PermissionType;
-  }) {
-    const org = await this.organizationService.createNewOrg({
-      name: orgInfo.orgName,
-      userId: orgInfo.userId,
-    });
-    const user = await this.userRepository.findOne({
-      where: {
-        id: Number(orgInfo.userId),
-      },
-      relations: ['organization'],
-    });
-
-    if (!user) throw new NotInDB(`${orgInfo.userId} not found`);
-    if (user.organization.find((org) => org.name === orgInfo.orgName))
-      throw new AlreadyInDB(`${orgInfo.orgName} already exists`);
-
-    user.organization.push(org);
-    return await this.userRepository.save(user);
-  }
-
-
   async createNewUser(userInfo: {
     firstName: string;
     lastName: string;
@@ -77,9 +48,6 @@ export class UserService {
   }) {
     try {
       const password = await hashPassword(userInfo.password);
-      const org = await this.organizationService.createNewOrg({
-        name: 'new organization',
-      });
       const permission = await this.permissionService.createAdmin();
       const source = this.getUserSource();
 
@@ -87,7 +55,6 @@ export class UserService {
         ...userInfo,
         password,
         permission: [permission],
-        organization: [org],
         source,
       });
       return await this.userRepository.save(user);
