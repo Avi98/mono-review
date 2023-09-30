@@ -10,7 +10,6 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { Permission } from '../permission/permission.entity';
-import { OrganizationUser } from '../organization-user/organization-user.entity';
 
 @Entity()
 export class User {
@@ -63,8 +62,8 @@ export class User {
   })
   source: string;
 
-  @OneToMany(() => OrganizationUser, (orgUser) => orgUser.user)
-  org_user: OrganizationUser[];
+  // @OneToMany(() => OrganizationUser, (orgUser) => orgUser.user)
+  // org_user: OrganizationUser[];
 
   @ManyToMany(() => Permission, (permission) => permission.user)
   @JoinTable({ name: 'user_permission' })

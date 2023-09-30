@@ -8,24 +8,10 @@ import { Permission } from '../../permission/permission.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { PermissionService } from '../../permission/permission.service';
 import { OrganizationController } from './organization.controller';
-import { OrganizationUserService } from '../../organization-user/organization-user.service';
-import { OrganizationUser } from '../../organization-user/organization-user.entity';
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([
-      User,
-      Organization,
-      Permission,
-      OrganizationUser,
-    ]),
-  ],
+  imports: [TypeOrmModule.forFeature([User, Organization, Permission])],
   controllers: [UserController, OrganizationController],
-  providers: [
-    UserService,
-    OrganizationService,
-    PermissionService,
-    OrganizationUserService,
-  ],
+  providers: [UserService, OrganizationService, PermissionService],
 })
 export class PrivateApiModule {}

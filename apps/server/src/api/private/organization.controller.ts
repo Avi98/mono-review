@@ -8,13 +8,13 @@ export class OrganizationController {
   constructor(private orgService: OrganizationService) {}
 
   @UseGuards(SessionGuard)
-  @Post('add-organization')
-  async addNewOrganization(@Body() orgInfo: OrganizationInfoDto) {
+  @Post('create')
+  async createNewOrg(@Body() orgInfo: OrganizationInfoDto) {
     try {
-      await this.orgService.createNewOrg({
-        name: orgInfo.orgName,
-        userId: orgInfo.userId,
-      });
+      // await this.orgService.createNewOrg({
+      //   name: orgInfo.orgName,
+      //   userId: orgInfo.userId,
+      // })this.orgService.createNewOr;
       return `Successfully ${orgInfo.orgName} added`;
     } catch (error) {
       throw error;

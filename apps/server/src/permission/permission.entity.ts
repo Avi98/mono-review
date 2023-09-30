@@ -2,7 +2,6 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  JoinTable,
   ManyToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -26,10 +25,6 @@ export class Permission {
   user: User[];
 
   @Exclude()
-  @ManyToMany(() => Organization, (org) => org.permission)
-  organization: Organization[];
-
-  @Exclude()
   @CreateDateColumn({ default: () => 'now()', name: 'created_at' })
   createdAt: Date;
 
@@ -43,7 +38,6 @@ export class Permission {
     user?: User[];
   }) {
     const permission = new Permission();
-    permission.organization = permissionInfo?.organization;
     permission.type = permissionInfo.type;
     permission.user = permissionInfo?.user;
 

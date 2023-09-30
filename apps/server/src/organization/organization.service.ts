@@ -4,7 +4,6 @@ import { Organization } from './organization.entity';
 import { Repository } from 'typeorm';
 import { AlreadyInDB } from '../exceptions/errors';
 import { User } from '../user/user.entity';
-import { OrganizationUserService } from '../organization-user/organization-user.service';
 
 @Injectable()
 export class OrganizationService {
@@ -13,20 +12,10 @@ export class OrganizationService {
     private userRepository: Repository<User>,
     @InjectRepository(Organization)
     private orgRepository: Repository<Organization>,
-    private org_user: OrganizationUserService,
   ) {}
 
-  async createNewOrg(info: { name: string; userId: string }) {
+  async createNewOrg(info: { name: string; userId: string; slug: string }) {
     try {
-      const userOrgs = await this.findUserOrganization(info.userId);
-      const userOrgsName = [];
-      for (const orgId in userOrgs) {
-        const name = await this.getOrgById(orgId);
-        userOrgsName.push(name);
-      }
-      if (userOrgsName.includes(info.name))
-        throw new AlreadyInDB(`Organization name ${info.name} already exists`);
-
       const organization = Organization.create(info);
       return await this.orgRepository.save(organization);
     } catch (error) {

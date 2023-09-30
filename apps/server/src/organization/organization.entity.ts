@@ -2,16 +2,10 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  JoinTable,
-  ManyToMany,
-  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { Exclude } from 'class-transformer';
-import { User } from '../user/user.entity';
-import { Permission } from '../permission/permission.entity';
-import { OrganizationUser } from '../organization-user/organization-user.entity';
 
 @Entity({ name: 'organization' })
 export class Organization {
@@ -22,9 +16,8 @@ export class Organization {
   @Column()
   name: string;
 
-  @Exclude()
   @Column()
-  domain: string;
+  slug: string;
 
   @Exclude()
   @CreateDateColumn({ default: () => 'now()', name: 'created_at' })
@@ -34,20 +27,16 @@ export class Organization {
   @UpdateDateColumn({ default: () => 'now()', name: 'updated_at' })
   updatedAt: Date;
 
-  @ManyToOne(
-    () => OrganizationUser,
-    (organizationUser) => organizationUser.organization,
-  )
-  org_user: OrganizationUser;
+  // @OneToMany(
+  //   () => OrganizationUser,
+  //   (organizationUser) => organizationUser.organization,
+  // )
+  // org_user: OrganizationUser;
 
-  @ManyToMany(() => Permission, (permission) => permission.organization)
-  @JoinTable({ name: 'permission_organization' })
-  permission: Permission[];
-
-  static create(org: { name: string; user?: User[] }) {
+  static create(org: { name: string; slug: string }) {
     const organization = new Organization();
     organization.name = org.name;
-    organization.domain = '';
+    organization.slug = org.slug;
     return organization;
   }
 }
