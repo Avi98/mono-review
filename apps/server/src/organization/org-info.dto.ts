@@ -7,7 +7,4 @@ export class OrganizationInfoDto {
 
   @IsString()
   userId: string;
-
-  @IsString()
-  roleType: PermissionType;
 }

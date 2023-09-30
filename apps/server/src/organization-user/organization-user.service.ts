@@ -1,10 +1,10 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { OrganizationUser } from './organization-user.enitiy';
+import { OrganizationUser } from './organization-user.entity';
 import { UserStatusEnum } from '../utils/enums/UserStatusEnum';
-import { Organization } from '../organization/organization.entitiy';
 import { User } from '../user/user.entity';
 import { Repository } from 'typeorm';
+import { Organization } from '../organization/organization.entity';
 
 @Injectable()
 export class OrganizationUserService {

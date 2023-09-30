@@ -5,12 +5,12 @@ import {
   Entity,
   JoinTable,
   ManyToMany,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { Permission } from '../permission/permission.entity';
-import { Organization } from '../organization/organization.entity';
-
+import { OrganizationUser } from '../organization-user/organization-user.entity';
 
 @Entity()
 export class User {
@@ -63,13 +63,12 @@ export class User {
   })
   source: string;
 
+  @OneToMany(() => OrganizationUser, (orgUser) => orgUser.user)
+  org_user: OrganizationUser[];
+
   @ManyToMany(() => Permission, (permission) => permission.user)
   @JoinTable({ name: 'user_permission' })
   permission: Permission[];
-
-  @ManyToMany(() => Organization, (org) => org.user)
-  organization: Organization[];
-
 
   static create(userInfo: {
     firstName: string;
@@ -79,9 +78,7 @@ export class User {
     password: string;
     username: string;
     permission: Permission[];
-
     source: 'invite' | 'google' | 'git' | 'azure' | 'email';
-    organization: Organization[];
   }) {
     const user = new User();
     user.firstName = userInfo.firstName;
@@ -92,7 +89,6 @@ export class User {
     user.password = userInfo.password;
     user.username = userInfo.username;
     user.permission = userInfo.permission;
-    user.organization = userInfo.organization;
 
     return user;
   }
