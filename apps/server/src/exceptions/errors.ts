@@ -13,3 +13,7 @@ export class InValidUserSession extends Error {
 export class InValidRoleType extends Error {
   name = 'InValidRoleType';
 }
+
+export class DuplicateOrganization extends Error {
+  name = 'DuplicateOrganization';
+}

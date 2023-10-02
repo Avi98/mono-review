@@ -4,8 +4,8 @@ export class OrganizationInfoDto {
   @IsString()
   orgName: string;
 
-  @IsString()
-  userId: string;
+  @IsNumber()
+  userId: number;
 
   @IsString()
   orgSlug: string;

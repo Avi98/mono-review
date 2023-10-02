@@ -9,6 +9,7 @@ import { Permission } from '../permission/permission.entity';
 import { Organization } from '../organization/organization.entity';
 import { PermissionService } from '../permission/permission.service';
 import { OrganizationService } from '../organization/organization.service';
+import { OrganizationUser } from '../organization/organization-user.entity';
 
 @Module({
   providers: [
@@ -20,7 +21,12 @@ import { OrganizationService } from '../organization/organization.service';
   ],
   imports: [
     PassportModule,
-    TypeOrmModule.forFeature([User, Permission, Organization]),
+    TypeOrmModule.forFeature([
+      User,
+      Permission,
+      Organization,
+      OrganizationUser,
+    ]),
   ],
 })
 export class AuthModule {}

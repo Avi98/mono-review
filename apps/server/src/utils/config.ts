@@ -1,3 +1,4 @@
+import { resolve } from 'path';
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { env } from '@pr/common';
 import * as ExpressSession from 'express-session';
@@ -34,11 +35,11 @@ export function dbConfig(): TypeOrmModuleOptions {
     username: env.db.USERNAME,
     password: env.db.PASSWORD,
     host: env.db.HOST,
-    connectTimeoutMS: 5000,
     autoLoadEntities: true,
+    connectTimeoutMS: 5000,
     synchronize: env.isDev ? true : false,
     migrations: [__dirname + '/migrations/**/*{.ts,.js}'],
-    logging: false,
+    logging: true,
     extra: {
       max: 25,
     },

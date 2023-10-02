@@ -8,9 +8,17 @@ import { Permission } from '../../permission/permission.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { PermissionService } from '../../permission/permission.service';
 import { OrganizationController } from './organization.controller';
+import { OrganizationUser } from '../../organization/organization-user.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([User, Organization, Permission])],
+  imports: [
+    TypeOrmModule.forFeature([
+      User,
+      Organization,
+      Permission,
+      OrganizationUser,
+    ]),
+  ],
   controllers: [UserController, OrganizationController],
   providers: [UserService, OrganizationService, PermissionService],
 })

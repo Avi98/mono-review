@@ -30,10 +30,10 @@ export class UserService {
     return await this.userRepository.findOneBy({ email });
   }
 
-  async getUserById(userId: string) {
+  async getUserById(userId: number) {
     return await this.userRepository.findOne({
       where: {
-        id: Number(userId),
+        id: userId,
       },
     });
   }
@@ -54,7 +54,7 @@ export class UserService {
       const user = User.create({
         ...userInfo,
         password,
-        permission: [permission],
+        // permission: [permission],
         source,
       });
       return await this.userRepository.save(user);

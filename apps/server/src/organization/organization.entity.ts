@@ -2,12 +2,19 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
+  ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
+  Unique,
   UpdateDateColumn,
 } from 'typeorm';
 import { Exclude } from 'class-transformer';
+import { User } from '../user/user.entity';
+import { OrganizationUser } from './organization-user.entity';
 
-@Entity({ name: 'organization' })
+@Entity()
+@Unique(['owner', 'name'])
 export class Organization {
   @Exclude()
   @PrimaryGeneratedColumn('uuid')
@@ -23,15 +30,18 @@ export class Organization {
   @CreateDateColumn({ default: () => 'now()', name: 'created_at' })
   createdAt: Date;
 
+  @ManyToOne(() => User, (user) => user.ownedOrganizations)
+  @JoinColumn({ name: 'owner_id' })
+  owner: User;
+
+  @OneToMany(() => OrganizationUser, (org_user) => org_user.organization, {
+    cascade: true,
+  })
+  members: OrganizationUser[];
+
   @Exclude()
   @UpdateDateColumn({ default: () => 'now()', name: 'updated_at' })
   updatedAt: Date;
-
-  // @OneToMany(
-  //   () => OrganizationUser,
-  //   (organizationUser) => organizationUser.organization,
-  // )
-  // org_user: OrganizationUser;
 
   static create(org: { name: string; slug: string }) {
     const organization = new Organization();

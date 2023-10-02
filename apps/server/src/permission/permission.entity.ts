@@ -21,10 +21,6 @@ export class Permission {
   type: PermissionType;
 
   @Exclude()
-  @ManyToMany(() => User, (user) => user.permission)
-  user: User[];
-
-  @Exclude()
   @CreateDateColumn({ default: () => 'now()', name: 'created_at' })
   createdAt: Date;
 
@@ -39,7 +35,6 @@ export class Permission {
   }) {
     const permission = new Permission();
     permission.type = permissionInfo.type;
-    permission.user = permissionInfo?.user;
 
     return permission;
   }

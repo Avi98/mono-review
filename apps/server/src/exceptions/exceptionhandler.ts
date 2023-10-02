@@ -22,6 +22,10 @@ export const mapOfErrorToHTTPError = new Map([
     'InValidRoleType',
     (object): HttpException => new BadRequestException(object),
   ],
+  [
+    'DuplicateOrganization',
+    (object): HttpException => new BadRequestException(object),
+  ],
 ]);
 
 @Catch()
