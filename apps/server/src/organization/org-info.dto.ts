@@ -1,10 +1,15 @@
-import { IsString } from 'class-validator';
-import { PermissionType } from '../permission/permission.entity';
+import { IsNumber, IsString } from 'class-validator';
 
 export class OrganizationInfoDto {
   @IsString()
   orgName: string;
 
+  @IsNumber()
+  userId: number;
+
   @IsString()
-  userId: string;
+  orgSlug: string;
+
+  @IsNumber()
+  maxOrgSize: number;
 }

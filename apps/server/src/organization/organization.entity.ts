@@ -2,18 +2,19 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  JoinTable,
-  ManyToMany,
+  JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
+  Unique,
   UpdateDateColumn,
 } from 'typeorm';
 import { Exclude } from 'class-transformer';
 import { User } from '../user/user.entity';
-import { Permission } from '../permission/permission.entity';
-import { OrganizationUser } from '../organization-user/organization-user.entity';
+import { OrganizationUser } from './organization-user.entity';
 
-@Entity({ name: 'organization' })
+@Entity()
+@Unique(['owner', 'name'])
 export class Organization {
   @Exclude()
   @PrimaryGeneratedColumn('uuid')
@@ -22,32 +23,30 @@ export class Organization {
   @Column()
   name: string;
 
-  @Exclude()
   @Column()
-  domain: string;
+  slug: string;
 
   @Exclude()
   @CreateDateColumn({ default: () => 'now()', name: 'created_at' })
   createdAt: Date;
 
+  @ManyToOne(() => User, (user) => user.ownedOrganizations)
+  @JoinColumn({ name: 'owner_id' })
+  owner: User;
+
+  @OneToMany(() => OrganizationUser, (org_user) => org_user.organization, {
+    cascade: true,
+  })
+  members: OrganizationUser[];
+
   @Exclude()
   @UpdateDateColumn({ default: () => 'now()', name: 'updated_at' })
   updatedAt: Date;
 
-  @ManyToOne(
-    () => OrganizationUser,
-    (organizationUser) => organizationUser.organization,
-  )
-  org_user: OrganizationUser;
-
-  @ManyToMany(() => Permission, (permission) => permission.organization)
-  @JoinTable({ name: 'permission_organization' })
-  permission: Permission[];
-
-  static create(org: { name: string; user?: User[] }) {
+  static create(org: { name: string; slug: string }) {
     const organization = new Organization();
     organization.name = org.name;
-    organization.domain = '';
+    organization.slug = org.slug;
     return organization;
   }
 }

@@ -1,62 +1,81 @@
 import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
+import { InjectDataSource, InjectRepository } from '@nestjs/typeorm';
 import { Organization } from './organization.entity';
-import { Repository } from 'typeorm';
-import { AlreadyInDB } from '../exceptions/errors';
+import { DataSource, Repository, Transaction } from 'typeorm';
 import { User } from '../user/user.entity';
-import { OrganizationUserService } from '../organization-user/organization-user.service';
+import { OrganizationUser } from './organization-user.entity';
+import { UserOrgRoleEnum } from '../utils/enums/UserOrgRoleEnum';
+import { NotInDB } from '../exceptions/errors';
 
 @Injectable()
 export class OrganizationService {
   constructor(
-    @InjectRepository(User)
-    private userRepository: Repository<User>,
     @InjectRepository(Organization)
     private orgRepository: Repository<Organization>,
-    private org_user: OrganizationUserService,
+    @InjectRepository(OrganizationUser)
+    private orgUserRepository: Repository<OrganizationUser>,
+    @InjectDataSource()
+    private dataSource: DataSource,
   ) {}
 
-  async createNewOrg(info: { name: string; userId: string }) {
+  async createNewOrg(org: { name: string; owner: User; slug }) {
     try {
-      const userOrgs = await this.findUserOrganization(info.userId);
-      const userOrgsName = [];
-      for (const orgId in userOrgs) {
-        const name = await this.getOrgById(orgId);
-        userOrgsName.push(name);
-      }
-      if (userOrgsName.includes(info.name))
-        throw new AlreadyInDB(`Organization name ${info.name} already exists`);
+      const organization = Organization.create({
+        name: org.name,
+        slug: org.slug,
+      });
 
-      const organization = Organization.create(info);
-      return await this.orgRepository.save(organization);
+      organization.owner = org.owner;
+      const orgSaved = await this.orgRepository.save(organization);
+      const orgUser = this.orgUserRepository.create({
+        isOwner: true,
+        role: UserOrgRoleEnum.ADMIN,
+      });
+      orgUser.organization = orgSaved;
+      orgUser.user = org.owner;
+      await this.orgUserRepository.save(orgUser);
     } catch (error) {
+      console.log({ error });
       throw error;
     }
   }
 
-  async getOrgById(orgId) {
-    return await this.orgRepository
-      .createQueryBuilder('organization')
-      .select('name')
-      .where('id = :id', { id: orgId })
-      .getOne();
+  async addMemberToOrg(user: User, orgId: string) {
+    const org = await this.orgRepository.findOneBy({ id: orgId });
+    const orgUser = this.orgUserRepository.create({
+      role: UserOrgRoleEnum.MEMBER,
+      isOwner: false,
+    });
+
+    orgUser.user = user;
+    org.members = [await this.orgUserRepository.save(orgUser)];
+
+    await this.orgRepository.save(org);
+    return `userId: ${user.firstName || user.username} saved for ${org.name}`;
   }
 
-  async findUserOrganization(userId: string) {
-    return await this.userRepository
-      .createQueryBuilder('user')
-      .leftJoin('user.org_user', 'org_user')
-      .where('user.id = :id', { id: userId })
-      .getMany();
-  }
-  async getOrganizationUser(orgId: string) {
-    const organizationUser = await this.orgRepository
-      .createQueryBuilder('organization')
-      .innerJoin('org_user.organization', 'organization')
-      .innerJoin('users', 'user')
-      .where('organization.id = :id', { id: orgId })
-      .getMany();
+  async getAllMembers(orgId: string) {
+    if (!(await this.orgRepository.exist({ where: { id: orgId } })))
+      throw new NotInDB(`Organization_id: ${orgId} does not exists`);
 
-    return organizationUser;
+    return await this.orgUserRepository
+      .createQueryBuilder('org_user')
+      .innerJoin('user', 'user', 'user.id = org_user.user_id')
+      .where('org_user.org_id = :id', { id: orgId })
+      .addSelect([
+        'user.email',
+        'org_user.role',
+        'user.firstName',
+        'user.lastName',
+      ])
+      .getRawMany();
+  }
+
+  async removeMemberFromOrg(userId: string) {
+    return '';
+  }
+
+  async getAllOrgMembers(orgId: string) {
+    return '';
   }
 }

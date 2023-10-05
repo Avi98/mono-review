@@ -3,14 +3,12 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  JoinTable,
-  ManyToMany,
   OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { Permission } from '../permission/permission.entity';
-import { OrganizationUser } from '../organization-user/organization-user.entity';
+import { Organization } from '../organization/organization.entity';
+import { OrganizationUser } from '../organization/organization-user.entity';
 
 @Entity()
 export class User {
@@ -63,12 +61,15 @@ export class User {
   })
   source: string;
 
-  @OneToMany(() => OrganizationUser, (orgUser) => orgUser.user)
-  org_user: OrganizationUser[];
+  @OneToMany(() => Organization, (org) => org.owner, {
+    cascade: true,
+  })
+  ownedOrganizations: Organization[];
 
-  @ManyToMany(() => Permission, (permission) => permission.user)
-  @JoinTable({ name: 'user_permission' })
-  permission: Permission[];
+  @OneToMany(() => OrganizationUser, (org_user) => org_user.user, {
+    cascade: true,
+  })
+  organizations: OrganizationUser[];
 
   static create(userInfo: {
     firstName: string;
@@ -77,7 +78,6 @@ export class User {
     email: string;
     password: string;
     username: string;
-    permission: Permission[];
     source: 'invite' | 'google' | 'git' | 'azure' | 'email';
   }) {
     const user = new User();
@@ -88,7 +88,7 @@ export class User {
     user.photo = userInfo.photo;
     user.password = userInfo.password;
     user.username = userInfo.username;
-    user.permission = userInfo.permission;
+    // user.permission = userInfo.permission;
 
     return user;
   }
