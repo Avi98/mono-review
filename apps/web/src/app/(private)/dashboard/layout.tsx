@@ -1,7 +1,6 @@
 import { Avatar } from "../../../components/avatar";
-import { LogoIcon } from "../../../components/logo";
 import { OuterSideBar } from "./components/OuterSideBar";
-import { SignOutButton } from "./components/signoutButton";
+import { SignOutButton } from "./components/SignoutButton";
 
 const PrivateRoute = ({ children }: { children: React.ReactNode }) => {
   return (

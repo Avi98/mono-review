@@ -11,11 +11,11 @@ export const Avatar = React.forwardRef<HTMLSpanElement, IAvatar>(
       <span
         ref={ref}
         className={cn(
-          "flex h-8 w-8 items-center justify-center rounded-full bg-sky-500",
+          "flex h-12 w-12 items-center justify-center rounded-full bg-sky-500",
           props.className
         )}
       >
-        <span className="text-sm font-semibold capitalize">
+        <span className="text-lg font-semibold capitalize">
           {getFullNameInitials(props.fullName)}
         </span>
       </span>

@@ -5,5 +5,5 @@ export const getFullNameInitials = (fullName: string) => {
   for (const w of words) {
     initials += w[0];
   }
-  return initials;
+  return initials.toUpperCase();
 };
