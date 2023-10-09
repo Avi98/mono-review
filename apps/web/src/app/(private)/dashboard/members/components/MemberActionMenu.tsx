@@ -1,4 +1,6 @@
 import { Dropdown } from "../../../../../components/dropdownMenu/DropdownMenu";
+import { DeleteMemberModal } from "./DeleteMemberModal";
+import { MemberRoleChangeModal } from "./MemberRoleChangeModal";
 import {
   RemoveMemberModalTrigger,
   RoleUpdateModalTrigger,
@@ -11,13 +13,13 @@ export const MemberActionMenu = ({}: IMemberActionMenu) => {
     "m-2 flex gap-4 p-2 outline-none hover:bg-sky-700 active:bg-sky-700 focus:bg-sky-700 rounded";
 
   return (
-    <Dropdown>
-      <ModalProvider memberName="Remove member">
+    <ModalProvider memberName="Remove member">
+      <Dropdown>
         <RemoveMemberModalTrigger dropdownItemStyle={dropdownItemStyle} />
-      </ModalProvider>
-      <ModalProvider memberName="name">
         <RoleUpdateModalTrigger dropdownItemStyle={dropdownItemStyle} />
-      </ModalProvider>
-    </Dropdown>
+      </Dropdown>
+      <MemberRoleChangeModal />
+      <DeleteMemberModal />
+    </ModalProvider>
   );
 };
