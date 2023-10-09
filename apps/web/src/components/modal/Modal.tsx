@@ -8,7 +8,7 @@ export const Trigger = ({ children }: IWithChildren) => (
 );
 
 interface IModal extends IWithChildren {
-  trigger: ReactElement;
+  trigger?: ReactElement;
   title: string;
   description?: string;
   open: boolean;
@@ -17,7 +17,7 @@ interface IModal extends IWithChildren {
 export const Modal = (props: IModal) => {
   return (
     <Dialog.Root open={props.open}>
-      <Trigger>{props.trigger}</Trigger>
+      {props.trigger ? <Trigger>{props.trigger}</Trigger> : null}
       <Dialog.Portal>
         <Dialog.Overlay className="bg-blackA6 data-[state=open]:animate-overlayShow fixed inset-0" />
         <Dialog.Content>

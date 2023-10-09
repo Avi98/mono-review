@@ -86,11 +86,10 @@
 
     --radius: 0.5rem;
   }
-
-  /* Preferred box-sizing value */
-  *,
-  *::before,
-  *::after {
-    box-sizing: border-box;
-  }
+}
+/* Preferred box-sizing value */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }

@@ -1,5 +1,5 @@
 import { MoreHorizontal, MoreVertical } from "lucide-react";
-import { ButtonHTMLAttributes, ReactNode } from "react";
+import { ButtonHTMLAttributes, ReactNode, forwardRef } from "react";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import { cn } from "../../utils/classNameMerge";
 
@@ -26,14 +26,21 @@ export const Dropdown = (props: IDropdown) => (
   </DropdownMenu.Root>
 );
 
-export const DropdownItem = (props: {
-  children: ReactNode;
-  className?: HTMLElement["className"];
-  onClick: VoidFunction;
-}) => (
+export const DropdownItem = forwardRef<
+  HTMLDivElement,
+  {
+    children: ReactNode;
+    className?: HTMLElement["className"];
+    onClick: VoidFunction;
+  }
+>((props, ref) => (
   <DropdownMenu.Item
+    ref={ref}
     className={cn("min-w-min cursor-pointer p-2 text-left", props.className)}
+    onClick={props.onClick}
   >
     {props.children}
   </DropdownMenu.Item>
-);
+));
+
+DropdownItem.displayName = "DropdownItem";

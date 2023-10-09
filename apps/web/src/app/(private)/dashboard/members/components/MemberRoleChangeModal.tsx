@@ -1,23 +1,22 @@
-import { ReactElement, cloneElement, useState } from "react";
+import { ReactElement } from "react";
 import { Modal } from "../../../../../components/modal";
 
 interface IMemberRoleChangeModal {
+  trigger: ReactElement;
+  isOpen: boolean;
   memberName: string;
-  trigger: JSX.Element;
 }
-export const MemberRoleChangeModal = (props: IMemberRoleChangeModal) => {
-  const [openModal, setOpenModal] = useState(false);
 
-  const toggleModal = () => {
-    setOpenModal(true);
-  };
-  const Trigger = cloneElement(props.trigger, { onClick: toggleModal });
-
+export const MemberRoleChangeModal = ({
+  trigger,
+  isOpen,
+  memberName,
+}: IMemberRoleChangeModal) => {
   return (
     <Modal
-      open={true}
-      title={`Update role of ${props.memberName}`}
-      trigger={Trigger}
+      open={isOpen}
+      title={`Update role of ${memberName}`}
+      trigger={trigger}
     >
       <div>Update Role</div>
     </Modal>

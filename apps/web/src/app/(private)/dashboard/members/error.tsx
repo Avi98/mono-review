@@ -1,7 +1,7 @@
 "use client";
 
-const ErrorDashboard = () => {
-  return <div>something went wrong error cached in ErrorDashboard</div>;
+const ErrorMembers = () => {
+  return <div>something went wrong error cached</div>;
 };
 
-export default ErrorDashboard;
+export default ErrorMembers;

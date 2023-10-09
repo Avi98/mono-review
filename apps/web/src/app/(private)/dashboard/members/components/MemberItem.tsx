@@ -12,6 +12,7 @@ export const MemberItem = () => {
         <div>member@email.com</div>
         <div>designation</div>
         <div>role</div>
+
         <MemberActionMenu />
       </div>
     </li>
