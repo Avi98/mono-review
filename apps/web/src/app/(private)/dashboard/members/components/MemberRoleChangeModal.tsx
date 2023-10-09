@@ -1,12 +1,20 @@
 import { Modal } from "../../../../../components/modal";
-import { useModal } from "./ModalProviders";
+import { useMemberActionModal } from "./ModalProviders";
 
 interface IMemberRoleChangeModal {}
 
 export const MemberRoleChangeModal = ({}: IMemberRoleChangeModal) => {
-  const { isOpenModal: isOpen, memberName } = useModal();
+  const {
+    isUpdateMemberModalOpen: isOpen,
+    memberName,
+    toggleUpdateMemberModal,
+  } = useMemberActionModal();
   return (
-    <Modal open={isOpen} title={`Update role of ${memberName}`}>
+    <Modal
+      open={isOpen}
+      title={`Update role of ${memberName}`}
+      closeModal={toggleUpdateMemberModal}
+    >
       <div>Update Role</div>
     </Modal>
   );

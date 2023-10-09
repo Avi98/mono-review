@@ -9,13 +9,14 @@ import {
 } from "react";
 
 const initialState = {
-  toggleModal: () => {},
-  isOpenModal: false,
+  toggleDeleteMemberModal: () => {},
+  toggleUpdateMemberModal: () => {},
+  isDeleteMemberModalOpen: false,
+  isUpdateMemberModalOpen: false,
   memberName: "",
-  trigger: null,
 } as const;
 
-type ContextType = Omit<typeof initialState, "trigger"> & {
+type ContextType = Omit<typeof initialState, ""> & {
   memberName: string;
 };
 const MemberActionModalContext = createContext<ContextType>(initialState);
@@ -26,17 +27,26 @@ interface IModalProvider {
 }
 
 interface IInitialState {
-  isOpenModal: boolean;
+  isUpdateMemberModalOpen: boolean;
+  isDeleteMemberModalOpen: boolean;
 }
-export const ModalProvider = (props: IModalProvider) => {
+export const MemberActionsModalProvider = (props: IModalProvider) => {
   const [modalState, setModalState] = useState<IInitialState>({
-    isOpenModal: false,
+    isUpdateMemberModalOpen: false,
+    isDeleteMemberModalOpen: false,
   });
 
-  const toggleModal = useCallback(() => {
+  const toggleDeleteMemberModal = useCallback(() => {
     setModalState((state) => ({
       ...state,
-      isOpenModal: !state.isOpenModal,
+      isDeleteMemberModalOpen: !state.isDeleteMemberModalOpen,
+    }));
+  }, []);
+
+  const toggleUpdateMemberModal = useCallback(() => {
+    setModalState((state) => ({
+      ...state,
+      isUpdateMemberModalOpen: !state.isUpdateMemberModalOpen,
     }));
   }, []);
 
@@ -44,8 +54,18 @@ export const ModalProvider = (props: IModalProvider) => {
     <MemberActionModalContext.Provider
       value={
         useMemo(
-          () => ({ toggleModal, memberName: props.memberName, ...modalState }),
-          [modalState, props.memberName, toggleModal]
+          () => ({
+            toggleDeleteMemberModal,
+            toggleUpdateMemberModal,
+            memberName: props.memberName,
+            ...modalState,
+          }),
+          [
+            modalState,
+            props.memberName,
+            toggleDeleteMemberModal,
+            toggleUpdateMemberModal,
+          ]
         ) as ContextType
       }
     >
@@ -54,7 +74,7 @@ export const ModalProvider = (props: IModalProvider) => {
   );
 };
 
-export const useModal = () => {
+export const useMemberActionModal = () => {
   const roleModalContext = useContext(MemberActionModalContext);
 
   return roleModalContext;

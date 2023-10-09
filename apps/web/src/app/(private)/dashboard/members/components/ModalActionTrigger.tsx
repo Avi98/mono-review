@@ -1,14 +1,13 @@
 import { Edit, Trash2 } from "lucide-react";
 import { DropdownItem } from "../../../../../components/dropdownMenu/DropdownMenu";
-import { useModal } from "./ModalProviders";
+import { useMemberActionModal } from "./ModalProviders";
 
 interface IActionModalTrigger {
   dropdownItemStyle: HTMLDivElement["className"];
 }
 
 export const RoleUpdateModalTrigger = (props: IActionModalTrigger) => {
-  const { isOpenModal, memberName, toggleModal } = useModal();
-  console.log({ isOpenModalRole: isOpenModal });
+  const { toggleUpdateMemberModal: toggleModal } = useMemberActionModal();
   return (
     <DropdownItem onClick={toggleModal} className={props.dropdownItemStyle}>
       <Edit />
@@ -18,7 +17,7 @@ export const RoleUpdateModalTrigger = (props: IActionModalTrigger) => {
 };
 
 export const RemoveMemberModalTrigger = (props: IActionModalTrigger) => {
-  const { isOpenModal, memberName, toggleModal } = useModal();
+  const { toggleDeleteMemberModal: toggleModal } = useMemberActionModal();
   return (
     <DropdownItem className={props.dropdownItemStyle} onClick={toggleModal}>
       <Trash2 />
