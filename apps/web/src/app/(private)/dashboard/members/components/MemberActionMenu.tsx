@@ -13,7 +13,7 @@ export const MemberActionMenu = ({}: IMemberActionMenu) => {
     "m-2 flex gap-4 p-2 outline-none hover:bg-sky-700 active:bg-sky-700 focus:bg-sky-700 rounded";
 
   return (
-    <MemberActionsModalProvider memberName="Avinash k">
+    <MemberActionsModalProvider memberName="Avinash k" memberRole="member">
       <Dropdown>
         <RemoveMemberModalTrigger dropdownItemStyle={dropdownItemStyle} />
         <RoleUpdateModalTrigger dropdownItemStyle={dropdownItemStyle} />

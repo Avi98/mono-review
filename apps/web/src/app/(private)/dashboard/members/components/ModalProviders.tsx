@@ -7,6 +7,7 @@ import {
   useMemo,
   useState,
 } from "react";
+import { MEMBER_ROLE } from "../../../../../utils/types";
 
 const initialState = {
   toggleDeleteMemberModal: () => {},
@@ -14,16 +15,19 @@ const initialState = {
   isDeleteMemberModalOpen: false,
   isUpdateMemberModalOpen: false,
   memberName: "",
+  memberRole: "member",
 } as const;
 
-type ContextType = Omit<typeof initialState, ""> & {
+type ContextType = Omit<typeof initialState, "memberRole"> & {
   memberName: string;
+  memberRole: MEMBER_ROLE;
 };
 const MemberActionModalContext = createContext<ContextType>(initialState);
 
 interface IModalProvider {
   children: ReactNode;
   memberName: string;
+  memberRole: MEMBER_ROLE;
 }
 
 interface IInitialState {
