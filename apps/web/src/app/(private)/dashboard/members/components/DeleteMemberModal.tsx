@@ -1,3 +1,4 @@
+import { Button } from "../../../../../components/button/Button";
 import { Modal } from "../../../../../components/modal";
 import { useMemberActionModal } from "./ModalProviders";
 
@@ -11,10 +12,18 @@ export const DeleteMemberModal = () => {
   return (
     <Modal
       open={isOpen}
-      title={`Update role of ${memberName}`}
+      title={`Delete member`}
       closeModal={toggleDeleteMemberModal}
     >
-      <div>Delete modal</div>
+      <div className="p-5 ">
+        <p>Are you sure you want to delete&nbsp;{`"${memberName}"`} ?</p>
+        <div className="flex justify-end">
+          <div className="flex gap-2 py-2">
+            <Button>Cancel</Button>
+            <Button variant="destructive">Delete</Button>
+          </div>
+        </div>
+      </div>
     </Modal>
   );
 };

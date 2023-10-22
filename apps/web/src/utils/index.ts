@@ -1,3 +1,6 @@
+import { MEMBER_ROLES } from "./constants";
+import { type MEMBER_ROLE } from "./types";
+
 export const getFullNameInitials = (fullName: string) => {
   const words = fullName.trim().split(" ");
 
@@ -6,4 +9,8 @@ export const getFullNameInitials = (fullName: string) => {
     initials += w[0];
   }
   return initials.toUpperCase();
+};
+
+export const castStringToMember = (str: string): MEMBER_ROLE | undefined => {
+  if (MEMBER_ROLES.includes(str as any)) return str as MEMBER_ROLE;
 };

@@ -3,15 +3,13 @@ import { ReactNode, useState } from "react";
 import { useToggle } from "../hooks/use-toggle";
 import { ChevronDown } from "lucide-react";
 
-interface ISelectInputProps<IValue = string> {
+interface ISelectInputProps {
   label: string;
   value: string;
-  onChange: (value: IValue) => void;
+  onChange: (value: string) => void;
   children: ReactNode;
 }
-export function SelectInput<IValue extends string>(
-  props: ISelectInputProps<IValue>
-) {
+export function SelectInput(props: ISelectInputProps) {
   const { open, toggle } = useToggle();
 
   const handleOnChange = (value: string) => {
