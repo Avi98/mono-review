@@ -13,11 +13,9 @@ export const SelectDropdownBox = (props: ISelectDropdownBox) => {
       onChange={props.onChange}
       value={props.value}
     >
-      <SelectGroup>
-        {props.options.map(({ label, value }) => (
-          <SelectItem value={value}>{label}</SelectItem>
-        ))}
-      </SelectGroup>
+      {props.options.map(({ label, value }) => (
+        <SelectItem value={value}>{label}</SelectItem>
+      ))}
     </SelectInput>
   );
 };

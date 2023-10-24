@@ -13,21 +13,26 @@ export function SelectInput(props: ISelectInputProps) {
   const { open, toggle } = useToggle();
 
   const handleOnChange = (value: string) => {
-    toggle();
     props.onChange(value);
   };
 
   return (
-    <Select.Root value={props.value} open={open} onValueChange={handleOnChange}>
-      <Select.Trigger className="capitalize">
-        <Select.Value placeholder={props.label}>{props.value}</Select.Value>
+    <Select.Root
+    // onValueChange={handleOnChange}
+    // onOpenChange={toggle}
+    // open={open}
+    >
+      <Select.Trigger className="flex capitalize">
+        <Select.Value placeholder={props.label} />
         <Select.Icon>
           <ChevronDown />
         </Select.Icon>
       </Select.Trigger>
       <Select.Portal>
         <Select.Content>
-          <Select.Viewport>{props.children}</Select.Viewport>
+          <Select.Viewport>
+            <Select.Group>{props.children}</Select.Group>
+          </Select.Viewport>
         </Select.Content>
       </Select.Portal>
     </Select.Root>
