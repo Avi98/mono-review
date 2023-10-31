@@ -7,6 +7,7 @@ interface ISelectDropdownBox {
 }
 
 export const SelectDropdownBox = (props: ISelectDropdownBox) => {
+  console.log({ props });
   return (
     <SelectInput
       label="Select member role"

@@ -48,7 +48,7 @@ export const Modal = (props: IModal) => {
           <Dialog.Description className="text-mauve11 mb-5 mt-[10px] text-[15px] leading-normal">
             {props.description}
           </Dialog.Description>
-          {props.children}
+          <div className="pl-[25px] pr-[35px]">{props.children}</div>
         </Dialog.Content>
       </Dialog.Portal>
     </Dialog.Root>

@@ -31,9 +31,14 @@ export const MemberRoleChangeModal = ({}: IMemberRoleChangeModal) => {
   const [role, setRole] = useState<MEMBER_ROLE>(memberRole);
 
   const updateMemberRole = useCallback((value: string) => {
+    console.log({ value });
     const role = castStringToMemberRole(value);
     if (role) setRole(role);
   }, []);
+
+  const handleSubmit = (e: any) => {
+    console.log({ e });
+  };
 
   return (
     <Modal
@@ -41,13 +46,15 @@ export const MemberRoleChangeModal = ({}: IMemberRoleChangeModal) => {
       title={`Update role`}
       closeModal={toggleUpdateMemberModal}
     >
-      <div className="flex justify-between px-2">
-        <div>Update role</div>
-        <SelectDropdownBox
-          value={role}
-          onChange={updateMemberRole}
-          options={role_options}
-        />
+      <div className="flex justify-between ">
+        <div>Current role for {`${memberName}`}</div>
+        <form onSubmit={handleSubmit}>
+          <SelectDropdownBox
+            value={role}
+            onChange={updateMemberRole}
+            options={role_options}
+          />
+        </form>
       </div>
     </Modal>
   );

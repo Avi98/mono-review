@@ -18,9 +18,9 @@ export function SelectInput(props: ISelectInputProps) {
 
   return (
     <Select.Root
-    // onValueChange={handleOnChange}
-    // onOpenChange={toggle}
-    // open={open}
+      onValueChange={handleOnChange}
+      onOpenChange={toggle}
+      open={open}
     >
       <Select.Trigger className="flex capitalize">
         <Select.Value placeholder={props.label} />
@@ -31,7 +31,18 @@ export function SelectInput(props: ISelectInputProps) {
       <Select.Portal>
         <Select.Content>
           <Select.Viewport>
-            <Select.Group>{props.children}</Select.Group>
+            {/* <Select.Group>{props.children}</Select.Group> */}
+            <Select.Group>
+              {" "}
+              <Select.Label className="px-[25px] text-xs leading-[25px] text-mauve11">
+                Fruits
+              </Select.Label>
+              <SelectItem value="apple">Apple</SelectItem>
+              <SelectItem value="banana">Banana</SelectItem>
+              <SelectItem value="blueberry">Blueberry</SelectItem>
+              <SelectItem value="grapes">Grapes</SelectItem>
+              <SelectItem value="pineapple">Pineapple</SelectItem>
+            </Select.Group>
           </Select.Viewport>
         </Select.Content>
       </Select.Portal>
