@@ -8,6 +8,7 @@ import { toast } from "../../../../components/toast/use-toast";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema, type LoginFormType } from "../../../../../schema/login";
+import { useRouter } from "next/navigation";
 
 export const LoginForm = () => {
   const { mutate: login } = useLogin({
@@ -26,12 +27,14 @@ export const LoginForm = () => {
       });
     },
   });
+  const router = useRouter();
 
   const { register, handleSubmit } = useForm<LoginFormType>({
     resolver: zodResolver(loginSchema),
   });
   const onSubmit = ({ email, password }: LoginFormType) => {
     login({ email, password });
+    router.push("/dashboard");
   };
 
   return (

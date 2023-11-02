@@ -2,7 +2,7 @@ import React, { ButtonHTMLAttributes } from "react";
 import { cva, VariantProps } from "class-variance-authority";
 
 const button = cva(
-  "inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus:ring ",
+  "inline-flex items-center justify-center font-medium rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus:ring ",
   {
     variants: {
       variant: {
@@ -10,8 +10,7 @@ const button = cva(
         plain: "text-primary hover:text-primary/80 hover:underline",
         outline:
           "border bg-accent text-accent-foreground hover:bg-accent hover:text-accent-foreground",
-        primary:
-          "bg-primaryGreen text-primary-foreground hover:bg-primaryGreen/90",
+        primary: "bg-primaryGreen text-primary hover:bg-primaryGreen/90 ",
 
         destructive:
           "bg-destructive text-destructive-foreground hover:bg-destructive/80 hover:text-destructive-foreground/80",
