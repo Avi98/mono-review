@@ -1,24 +1,23 @@
 import { useCallback, useState } from "react";
 import { Modal } from "../../../../../components/modal";
-import {
-  SelectDropdownBox,
-  SelectGroup,
-  SelectInput,
-  SelectItem,
-} from "../../../../../components/select";
 import { useMemberActionModal } from "./ModalProviders";
 import { type MEMBER_ROLE } from "../../../../../utils/types";
 import { castStringToMember as castStringToMemberRole } from "../../../../../utils";
+import { Select } from "../../../../../components/select/Select";
+import { Button } from "../../../../../components/button/Button";
 
 interface IMemberRoleChangeModal {}
 
-const role_options = [
+const role_options: Array<{ label: string; value: MEMBER_ROLE }> = [
   {
     label: "Admin",
     value: "admin",
   },
   { label: "Member", value: "member" },
 ];
+
+const getRole = (role: string) =>
+  role_options.filter(({ value }) => role === value).at(0);
 
 export const MemberRoleChangeModal = ({}: IMemberRoleChangeModal) => {
   const {
@@ -28,11 +27,18 @@ export const MemberRoleChangeModal = ({}: IMemberRoleChangeModal) => {
     toggleUpdateMemberModal,
   } = useMemberActionModal();
 
-  const [role, setRole] = useState<MEMBER_ROLE>(memberRole);
+  const [role, setRole] = useState<{ label: string; value: MEMBER_ROLE }>(
+    getRole(memberRole) || {
+      label: "Member",
+      value: "member",
+    }
+  );
 
   const updateMemberRole = useCallback((value: string) => {
-    console.log({ value });
-    const role = castStringToMemberRole(value);
+    if (!value) return;
+
+    const memberRole = castStringToMemberRole(value);
+    const role = memberRole ? getRole(memberRole) : null;
     if (role) setRole(role);
   }, []);
 
@@ -46,16 +52,25 @@ export const MemberRoleChangeModal = ({}: IMemberRoleChangeModal) => {
       title={`Update role`}
       closeModal={toggleUpdateMemberModal}
     >
-      <div className="flex justify-between ">
-        <div>Current role for {`${memberName}`}</div>
-        <form onSubmit={handleSubmit}>
-          <SelectDropdownBox
-            value={role}
-            onChange={updateMemberRole}
-            options={role_options}
-          />
-        </form>
-      </div>
+      <form onSubmit={handleSubmit}>
+        <div className="flex flex-col gap-2">
+          <div className="flex items-center justify-between">
+            <div className="text-sm">Current role for {`${memberName}`}</div>
+            <Select
+              value={role}
+              onChange={updateMemberRole}
+              options={role_options}
+              placeholder="User role"
+            />
+          </div>
+          <div className="flex justify-end gap-3 py-5">
+            <Button>Cancel</Button>
+            <Button type="submit" variant="primary">
+              Update
+            </Button>
+          </div>
+        </div>
+      </form>
     </Modal>
   );
 };
