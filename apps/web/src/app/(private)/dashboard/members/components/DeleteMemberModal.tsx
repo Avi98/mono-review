@@ -15,12 +15,16 @@ export const DeleteMemberModal = () => {
       title={`Delete member`}
       closeModal={toggleDeleteMemberModal}
     >
-      <div className="p-5 ">
-        <p>Are you sure you want to delete&nbsp;{`"${memberName}"`} ?</p>
-        <div className="flex justify-end">
-          <div className="flex gap-2 py-2">
-            <Button>Cancel</Button>
-            <Button variant="destructive">Delete</Button>
+      <div className="p-1">
+        <p className="text-sm">
+          Are you sure you want to delete&nbsp;{`"${memberName}"`}.
+        </p>
+        <div className="flex justify-end pt-10">
+          <div className="flex gap-3 py-2">
+            <Button size={"lg"}>Cancel</Button>
+            <Button size={"lg"} variant="destructive">
+              Delete
+            </Button>
           </div>
         </div>
       </div>
