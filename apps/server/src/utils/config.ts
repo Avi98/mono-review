@@ -1,28 +1,29 @@
-import { resolve } from 'path';
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { env } from '@pr/common';
 import * as ExpressSession from 'express-session';
 import { TypeormStore } from 'connect-typeorm';
 import { NestExpressApplication } from '@nestjs/platform-express';
 
-console.log('\nbackend server is running on port:' + parseInt(env.port_BE));
-console.log('\n');
-
-export default () => ({
-  port: parseInt(env.port_BE, 10) || 3030,
-});
-
 //setup session middleware
 export const setupSession = (
   sessionStore: TypeormStore,
   app: NestExpressApplication,
+  isDev: boolean,
 ) => {
+  const oneDay = 1000 * 60 * 60 * 24;
   app.use(
     ExpressSession({
+      name: env.session_name,
       resave: false,
       saveUninitialized: false,
       store: sessionStore,
       secret: env.db.SESSION_SECRET,
+      cookie: {
+        secure: isDev ? false : true,
+        maxAge: oneDay,
+        httpOnly: true,
+        sameSite: isDev ? 'strict' : 'none',
+      },
     }),
   );
 };

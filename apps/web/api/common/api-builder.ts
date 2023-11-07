@@ -21,6 +21,7 @@ abstract class BaseApiBuilder<ResponseType> {
     return await fetch(this.targetUrl, {
       method: httpMethods,
       headers: this.headers,
+      credentials: "include",
       body: this.body,
     })
       .then(async (res) => {
