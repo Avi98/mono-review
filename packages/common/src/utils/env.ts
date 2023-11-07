@@ -9,6 +9,7 @@ const castEnv = <T = string>({
   env: T | undefined;
   name: string;
 }): T => {
+  //@TODO refactor this to make sense
   // if (!env) throw new Error(`\n ENV for ${name} not provided`);
   //
   return env as T;
@@ -16,6 +17,8 @@ const castEnv = <T = string>({
 
 export const env = {
   port_BE: process.env.BE_PORT,
+  session_name: process.env.SESSION_NAME,
+  endpoint_FE: process.env.FE_ENDPOINT,
   endpoint_BE: process.env.BE_ENDPOINT,
   imageId: process.env.IMAGE_ID,
   imageType: process.env.IMAGE_TYPE,
@@ -47,4 +50,4 @@ export const env = {
       name: "SSH_PRIVATE_KEY",
     }),
   },
-};
+} as const;
