@@ -11,6 +11,9 @@ export abstract class ApiBuilderWithBody<
 
   withBody(body: RequestBodyType) {
     this.setHeader("Content-Type", "application/json");
+    this.setHeader("Accept", "application/json");
+    //@TODO set this to same-site in production
+    this.setHeader("Origin", "*");
     return this.setBody(JSON.stringify(body));
   }
 }
