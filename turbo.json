@@ -19,6 +19,9 @@
     "@pr/server#db:migration:create": {
       "dependsOn": ["^build"]
     },
+    "@pr/server#db:migration:generate": {
+      "dependsOn": ["^build"]
+    },
     "test": {}
   }
 }

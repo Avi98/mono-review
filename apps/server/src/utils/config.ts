@@ -3,6 +3,7 @@ import { env } from '@pr/common';
 import * as ExpressSession from 'express-session';
 import { TypeormStore } from 'connect-typeorm';
 import { NestExpressApplication } from '@nestjs/platform-express';
+import { DataSource, DataSourceOptions } from 'typeorm';
 
 //setup session middleware
 export const setupSession = (
@@ -28,21 +29,23 @@ export const setupSession = (
   );
 };
 
+const db: TypeOrmModuleOptions = {
+  type: 'postgres',
+  database: env.db.DATABASE,
+  port: +env.db.PORT || 5432,
+  username: env.db.USERNAME,
+  password: env.db.PASSWORD,
+  host: env.db.HOST,
+  autoLoadEntities: true,
+  connectTimeoutMS: 5000,
+  synchronize: false,
+  migrations: [__dirname + '/migrations/**/*{.ts,.js}'],
+  logging: true,
+  extra: {
+    max: 25,
+  },
+};
+
 export function dbConfig(): TypeOrmModuleOptions {
-  return {
-    type: 'postgres',
-    database: env.db.DATABASE,
-    port: +env.db.PORT || 5432,
-    username: env.db.USERNAME,
-    password: env.db.PASSWORD,
-    host: env.db.HOST,
-    autoLoadEntities: true,
-    connectTimeoutMS: 5000,
-    synchronize: env.isDev ? true : false,
-    migrations: [__dirname + '/migrations/**/*{.ts,.js}'],
-    logging: true,
-    extra: {
-      max: 25,
-    },
-  };
+  return db;
 }

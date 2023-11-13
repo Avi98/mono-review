@@ -14,6 +14,7 @@
     "pack:Azure:v2": "dotenv turbo run @pr/azure-task#pack:v2",
     "clean:install": "bash ./scripts/clean.sh && pnpm install",
     "db:migration:create": "dotenv turbo run db:migration:create",
+    "db:migration:generate": "dotenv turbo run db:migration:generate",
     "db:migration:run": "dotenv turbo run db:migration:run",
     "dev": "dotenv turbo run dev",
     "lint": "turbo run lint",
