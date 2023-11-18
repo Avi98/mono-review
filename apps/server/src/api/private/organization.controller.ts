@@ -26,16 +26,16 @@ export class OrganizationController {
       throw error;
     }
   }
-  @UseGuards(SessionGuard)
-  @Post('add-member')
-  async addUser(@Body() orgInfo: { userId: number; orgId: string }) {
-    try {
-      const member = await this.userService.getUserById(orgInfo.userId);
-      return await this.orgService.addMemberToOrg(member, orgInfo.orgId);
-    } catch (error) {
-      throw error;
-    }
-  }
+  // @UseGuards(SessionGuard)
+  // @Post('add-member')
+  // async addUser(@Body() orgInfo: { userId: number; orgId: string }) {
+  //   try {
+  //     const member = await this.userService.getUserById(orgInfo.userId);
+  //     return await this.orgService.addMemberToOrg(member, orgInfo.orgId);
+  //   } catch (error) {
+  //     throw error;
+  //   }
+  // }
   @UseGuards(SessionGuard)
   @Get('all-members/:orgId')
   async get(@Param('orgId') orgId: string) {
@@ -58,8 +58,14 @@ export class OrganizationController {
   }
 
   @UseGuards(SessionGuard)
-  @Post('add-user')
-  async addUserOrg(@Body('userId') userId: string) {
-    ({ userId });
+  @Post('add-member')
+  async addUser(@Body() orgInfo: { userId: number; orgId: string }) {
+    console.log('add-memeber');
+  }
+
+  @UseGuards(SessionGuard)
+  @Post('delete-member')
+  async deleteMember(@Body('memberId') memberId: string) {
+    console.log({ deleteMembers: memberId });
   }
 }
