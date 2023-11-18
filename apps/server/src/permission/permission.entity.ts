@@ -5,7 +5,6 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { User } from '../user/user.entity';
 import { Exclude } from 'class-transformer';
 import { Organization } from '../organization/organization.entity';
 
