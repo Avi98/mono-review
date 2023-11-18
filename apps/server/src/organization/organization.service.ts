@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
-import { InjectDataSource, InjectRepository } from '@nestjs/typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
 import { Organization } from './organization.entity';
-import { DataSource, Repository, Transaction } from 'typeorm';
+import { Repository } from 'typeorm';
 import { User } from '../user/user.entity';
 import { OrganizationUser } from './organization-user.entity';
 import { UserOrgRoleEnum } from '../utils/enums/UserOrgRoleEnum';
-import { NotInDB } from '../exceptions/errors';
+import { AlreadyInDB, InValidPayload, NotInDB } from '../exceptions/errors';
 
 @Injectable()
 export class OrganizationService {
@@ -14,8 +14,6 @@ export class OrganizationService {
     private orgRepository: Repository<Organization>,
     @InjectRepository(OrganizationUser)
     private orgUserRepository: Repository<OrganizationUser>,
-    @InjectDataSource()
-    private dataSource: DataSource,
   ) {}
 
   async createNewOrg(org: { name: string; owner: User; slug }) {
@@ -40,18 +38,56 @@ export class OrganizationService {
     }
   }
 
-  async addMemberToOrg(user: User, orgId: string) {
-    const org = await this.orgRepository.findOneBy({ id: orgId });
-    const orgUser = this.orgUserRepository.create({
-      role: UserOrgRoleEnum.MEMBER,
-      isOwner: false,
-    });
+  //must not exceed max value
+  async addMemberToOrg(
+    user: User,
+    orgId: string,
+    role = UserOrgRoleEnum.MEMBER,
+  ) {
+    try {
+      if (role == UserOrgRoleEnum.ADMIN)
+        throw new InValidPayload('Org can not have more than 1 admin');
 
-    orgUser.user = user;
-    org.members = [await this.orgUserRepository.save(orgUser)];
+      if (await this.isOwner(user.id, orgId))
+        throw new AlreadyInDB('Owner can not be added as member');
 
-    await this.orgRepository.save(org);
-    return `userId: ${user.firstName || user.username} saved for ${org.name}`;
+      const org = await this.orgRepository.findOneBy({ id: orgId });
+      const orgUser = this.orgUserRepository.create({ role });
+      orgUser.user = user;
+      orgUser.organization = org;
+
+      await this.orgUserRepository.save(orgUser);
+      return `userId: ${user.firstName || user.username} saved for ${org.name}`;
+    } catch (error) {
+      if (error instanceof AlreadyInDB) throw error;
+      if (error instanceof InValidPayload) throw error;
+
+      throw new AlreadyInDB('Organization has member with same id');
+    }
+  }
+
+  private async isOwner(userId: number, orgId: string) {
+    try {
+      const isOwner = await this.orgRepository.findOne({
+        where: { id: orgId, owner: { id: userId } },
+      });
+      if (isOwner) {
+        return true;
+      }
+    } catch (error) {
+      return false;
+    }
+  }
+
+  async getUsersOrg(userId: number) {
+    try {
+      return await this.orgRepository
+        .createQueryBuilder('og')
+        .where('og.owner_id = :userId', { userId })
+        .getMany();
+    } catch (error) {
+      throw new NotInDB('User does not have any organization.');
+    }
   }
 
   async getAllMembers(orgId: string) {
@@ -62,6 +98,9 @@ export class OrganizationService {
       .createQueryBuilder('org_user')
       .innerJoin('user', 'user', 'user.id = org_user.user_id')
       .where('org_user.org_id = :id', { id: orgId })
+      .where('org_user.role IN (:...roles)', {
+        roles: [UserOrgRoleEnum.MEMBER, UserOrgRoleEnum.VIEWER],
+      })
       .addSelect([
         'user.email',
         'org_user.role',
@@ -71,11 +110,41 @@ export class OrganizationService {
       .getRawMany();
   }
 
-  async removeMemberFromOrg(userId: string) {
-    return '';
+  //user should not be admin, manager
+  async removeMemberFromOrg(userId: number) {
+    const roles = await this.getMemberRole(userId);
+
+    if (!roles?.length) throw new Error(`Member with ${userId} doesn't exists`);
+    console.log({ roles });
   }
 
-  async getAllOrgMembers(orgId: string) {
-    return '';
+  async deleteMember(memberId: number) {
+    try {
+      await this.orgUserRepository
+        .createQueryBuilder('org_user')
+        .delete()
+        .where('user_id = :userId', { userId: memberId })
+        .execute();
+    } catch (error) {
+      throw new Error('Unable to delete');
+    }
+  }
+
+  async getMemberRole(memberId: number) {
+    try {
+      return await this.orgUserRepository.find({
+        where: {
+          user: {
+            id: memberId,
+          },
+        },
+        select: {
+          role: true,
+          isOwner: true,
+        },
+      });
+    } catch (error) {
+      return null;
+    }
   }
 }

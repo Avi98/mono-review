@@ -59,14 +59,4 @@ export class UserService {
       throw new AlreadyInDB('Email already exists');
     }
   }
-
-  async getUserOrgPermission(userId: string, orgId: string) {
-    return await this.userRepository
-      .createQueryBuilder('user')
-      .leftJoinAndSelect('user.organization', 'organization')
-      .where('user.id = :id', { id: userId })
-      .where('organization.id = :orgId', { orgId })
-      .leftJoinAndSelect('user.permission', 'permission')
-      .getMany();
-  }
 }

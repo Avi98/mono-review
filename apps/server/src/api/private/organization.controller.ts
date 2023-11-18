@@ -1,8 +1,19 @@
-import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Session,
+  UseGuards,
+} from '@nestjs/common';
 import { SessionGuard } from '../../session/session.gaurd';
 import { OrganizationInfoDto } from '../../organization/org-info.dto';
 import { OrganizationService } from '../../organization/organization.service';
 import { UserService } from '../../user/user.service';
+import { UserSessionType } from '../../session/interfaces';
+import { UserOrgRoleEnum } from '../../utils/enums/UserOrgRoleEnum';
 
 @Controller('org')
 export class OrganizationController {
@@ -13,9 +24,14 @@ export class OrganizationController {
 
   @UseGuards(SessionGuard)
   @Post('create')
-  async createNewOrg(@Body() orgInfo: OrganizationInfoDto) {
+  async createNewOrg(
+    @Body() orgInfo: OrganizationInfoDto,
+    @Session() session: UserSessionType,
+  ) {
     try {
-      const owner = await this.userService.getUserById(orgInfo.userId);
+      const userEmail = session.email;
+      const owner = await this.userService.getUserByEmail(userEmail);
+
       await this.orgService.createNewOrg({
         owner,
         slug: orgInfo.orgSlug,
@@ -26,16 +42,25 @@ export class OrganizationController {
       throw error;
     }
   }
-  // @UseGuards(SessionGuard)
-  // @Post('add-member')
-  // async addUser(@Body() orgInfo: { userId: number; orgId: string }) {
-  //   try {
-  //     const member = await this.userService.getUserById(orgInfo.userId);
-  //     return await this.orgService.addMemberToOrg(member, orgInfo.orgId);
-  //   } catch (error) {
-  //     throw error;
-  //   }
-  // }
+
+  //@TODO create gaurd for roles with manger and admin can only add members
+  @UseGuards(SessionGuard)
+  @Post('add-member')
+  async addUser(
+    @Body() orgInfo: { userId: number; orgId: string; role?: UserOrgRoleEnum },
+  ) {
+    try {
+      const member = await this.userService.getUserById(orgInfo.userId);
+      return await this.orgService.addMemberToOrg(
+        member,
+        orgInfo.orgId,
+        orgInfo.role,
+      );
+    } catch (error) {
+      throw error;
+    }
+  }
+
   @UseGuards(SessionGuard)
   @Get('all-members/:orgId')
   async get(@Param('orgId') orgId: string) {
@@ -49,23 +74,13 @@ export class OrganizationController {
   @UseGuards(SessionGuard)
   @Get('get-orgs/:userId')
   async getOrgs(@Param('userId') userId: string) {
-    ({ userId });
-  }
-  @UseGuards(SessionGuard)
-  @Get('get-users/:userId')
-  async getOrgsUsers(@Param('userId') userId: string) {
-    ({ userId });
+    return await this.orgService.getUsersOrg(Number(userId));
   }
 
+  //@TODO create gaurd for roles with manger and admin can only add members
   @UseGuards(SessionGuard)
-  @Post('add-member')
-  async addUser(@Body() orgInfo: { userId: number; orgId: string }) {
-    console.log('add-memeber');
-  }
-
-  @UseGuards(SessionGuard)
-  @Post('delete-member')
-  async deleteMember(@Body('memberId') memberId: string) {
-    console.log({ deleteMembers: memberId });
+  @Delete('delete-member/:memberId')
+  async deleteMember(@Param('memberId') memberId: string) {
+    await this.orgService.deleteMember(Number(memberId));
   }
 }
