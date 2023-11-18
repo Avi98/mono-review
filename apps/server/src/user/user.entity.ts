@@ -88,7 +88,6 @@ export class User {
     user.photo = userInfo.photo;
     user.password = userInfo.password;
     user.username = userInfo.username;
-    // user.permission = userInfo.permission;
 
     return user;
   }

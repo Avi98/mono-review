@@ -2,7 +2,6 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  ManyToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -31,11 +30,9 @@ export class Permission {
   static create(permissionInfo: {
     organization?: Organization[];
     type: PermissionType;
-    user?: User[];
   }) {
     const permission = new Permission();
     permission.type = permissionInfo.type;
-
     return permission;
   }
 }

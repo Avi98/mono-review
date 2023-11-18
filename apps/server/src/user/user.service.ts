@@ -5,13 +5,11 @@ import { Repository } from 'typeorm';
 import { InviteSourceEnum } from '../utils/enums/InviteSourceEnum';
 import { hashPassword } from '../utils/hash';
 import { AlreadyInDB } from '../exceptions/errors';
-import { PermissionService } from '../permission/permission.service';
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectRepository(User) private userRepository: Repository<User>,
-    private permissionService: PermissionService,
   ) {}
 
   async getUserByEmail(userEmail) {
@@ -48,16 +46,15 @@ export class UserService {
   }) {
     try {
       const password = await hashPassword(userInfo.password);
-      const permission = await this.permissionService.createAdmin();
       const source = this.getUserSource();
 
       const user = User.create({
         ...userInfo,
         password,
-        // permission: [permission],
         source,
       });
-      return await this.userRepository.save(user);
+
+      await this.userRepository.save(user);
     } catch (error) {
       throw new AlreadyInDB('Email already exists');
     }
