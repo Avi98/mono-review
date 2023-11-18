@@ -9,7 +9,10 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { SessionGuard } from '../../session/session.gaurd';
-import { OrganizationInfoDto } from '../../organization/org-info.dto';
+import {
+  OrganizationInfoDto,
+  UpdateMemberRoleDto,
+} from '../../organization/org-info.dto';
 import { OrganizationService } from '../../organization/organization.service';
 import { UserService } from '../../user/user.service';
 import { UserSessionType } from '../../session/interfaces';
@@ -75,6 +78,15 @@ export class OrganizationController {
   @Get('get-orgs/:userId')
   async getOrgs(@Param('userId') userId: string) {
     return await this.orgService.getUsersOrg(Number(userId));
+  }
+
+  @UseGuards(SessionGuard)
+  @Post('update-member-role')
+  async updateMemberRole(@Body() mem: UpdateMemberRoleDto) {
+    return await this.orgService.updateMemberRole({
+      id: mem.memberId,
+      role: mem.role,
+    });
   }
 
   //@TODO create gaurd for roles with manger and admin can only add members

@@ -1,4 +1,5 @@
-import { IsNumber, IsString } from 'class-validator';
+import { IsEnum, IsNumber, IsString } from 'class-validator';
+import { UserOrgRoleEnum } from '../utils/enums/UserOrgRoleEnum';
 
 export class OrganizationInfoDto {
   @IsString()
@@ -11,6 +12,13 @@ export class OrganizationInfoDto {
   maxOrgSize: number;
 }
 
+export class UpdateMemberRoleDto {
+  @IsNumber()
+  memberId: number;
+
+  @IsEnum(UserOrgRoleEnum)
+  role: Omit<UserOrgRoleEnum, 'ADMIN'>;
+}
 export interface OrgMemberResponse {
   org_user_id: string;
   org_user_isOwner: boolean;

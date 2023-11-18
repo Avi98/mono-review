@@ -118,6 +118,30 @@ export class OrganizationService {
     console.log({ roles });
   }
 
+  async updateMemberRole(memberInfo: {
+    id: number;
+    role: Omit<UserOrgRoleEnum, 'Admin'>;
+  }) {
+    try {
+      if (memberInfo.role === UserOrgRoleEnum.ADMIN)
+        throw new AlreadyInDB('Can not set multiple Admin');
+
+      const orgUser = await this.orgUserRepository.findOne({
+        where: {
+          user: {
+            id: memberInfo.id,
+          },
+        },
+      });
+
+      orgUser.role = memberInfo.role as UserOrgRoleEnum;
+      await this.orgUserRepository.save(orgUser);
+    } catch (error) {
+      if (error instanceof AlreadyInDB) throw error;
+      throw new Error('Something went wrong');
+    }
+  }
+
   async deleteMember(memberId: number) {
     try {
       await this.orgUserRepository
