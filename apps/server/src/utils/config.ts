@@ -38,7 +38,7 @@ const db: TypeOrmModuleOptions = {
   host: env.db.HOST,
   autoLoadEntities: true,
   connectTimeoutMS: 5000,
-  synchronize: false,
+  synchronize: true,
   migrations: [__dirname + '/migrations/**/*{.ts,.js}'],
   logging: true,
   extra: {

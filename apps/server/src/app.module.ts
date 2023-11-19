@@ -7,7 +7,6 @@ import { UserModule } from './user/user.module';
 import { PublicApiModule } from './api/public/public-api.module';
 import { PrivateApiModule } from './api/private/private-api.module';
 import { SessionModule } from './session/session.module';
-import { PermissionModule } from './permission/permission.module';
 import { OrganizationModule } from './organization/organization.modal';
 import { env } from '@pr/common';
 
@@ -23,7 +22,6 @@ import { env } from '@pr/common';
     PublicApiModule,
     PrivateApiModule,
     SessionModule,
-    PermissionModule,
     OrganizationModule,
   ],
   controllers: [],

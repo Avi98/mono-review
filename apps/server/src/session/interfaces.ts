@@ -1,3 +1,4 @@
-export type SessionWithRequestType = Request & {
-  session: { email: string };
+export type SessionWithRequestType = Request & { session: UserSessionType };
+export type UserSessionType = {
+  email: string;
 };
