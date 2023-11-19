@@ -17,6 +17,8 @@ import { OrganizationService } from '../../organization/organization.service';
 import { UserService } from '../../user/user.service';
 import { UserSessionType } from '../../session/interfaces';
 import { UserOrgRoleEnum } from '../../utils/enums/UserOrgRoleEnum';
+import { RolesGuard } from '../../organization/roles.gaurd';
+import { Roles } from '../../organization/roles.metadata';
 
 @Controller('org')
 export class OrganizationController {
@@ -46,9 +48,9 @@ export class OrganizationController {
     }
   }
 
-  //@TODO create gaurd for roles with manger and admin can only add members
-  @UseGuards(SessionGuard)
+  @UseGuards(SessionGuard, RolesGuard)
   @Post('add-member')
+  @Roles([UserOrgRoleEnum.ADMIN, UserOrgRoleEnum.MANAGER])
   async addUser(
     @Body() orgInfo: { userId: number; orgId: string; role?: UserOrgRoleEnum },
   ) {
@@ -80,7 +82,8 @@ export class OrganizationController {
     return await this.orgService.getUsersOrg(Number(userId));
   }
 
-  @UseGuards(SessionGuard)
+  @UseGuards(SessionGuard, RolesGuard)
+  @Roles([UserOrgRoleEnum.ADMIN, UserOrgRoleEnum.MANAGER])
   @Post('update-member-role')
   async updateMemberRole(@Body() mem: UpdateMemberRoleDto) {
     return await this.orgService.updateMemberRole({
@@ -89,8 +92,8 @@ export class OrganizationController {
     });
   }
 
-  //@TODO create gaurd for roles with manger and admin can only add members
-  @UseGuards(SessionGuard)
+  @UseGuards(SessionGuard, RolesGuard)
+  @Roles([UserOrgRoleEnum.ADMIN, UserOrgRoleEnum.MANAGER])
   @Delete('delete-member/:memberId')
   async deleteMember(@Param('memberId') memberId: string) {
     await this.orgService.deleteMember(Number(memberId));
