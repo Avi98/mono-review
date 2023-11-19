@@ -110,14 +110,6 @@ export class OrganizationService {
       .getRawMany();
   }
 
-  //user should not be admin, manager
-  async removeMemberFromOrg(userId: number) {
-    const roles = await this.getMemberRole(userId);
-
-    if (!roles?.length) throw new Error(`Member with ${userId} doesn't exists`);
-    console.log({ roles });
-  }
-
   async updateMemberRole(memberInfo: {
     id: number;
     role: Omit<UserOrgRoleEnum, 'Admin'>;
@@ -157,14 +149,13 @@ export class OrganizationService {
   async getMemberRole(memberId: number) {
     try {
       return await this.orgUserRepository.find({
-        where: {
-          user: {
-            id: memberId,
-          },
-        },
         select: {
           role: true,
-          isOwner: true,
+        },
+        where: {
+          user: {
+            id: Number(memberId),
+          },
         },
       });
     } catch (error) {

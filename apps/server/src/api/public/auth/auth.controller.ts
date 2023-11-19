@@ -26,8 +26,12 @@ export class AuthController {
     @Req() req: SessionWithRequestType,
     @Body() userInfo: LoginInfoDto,
   ) {
+    const user = await this.userService.getUserByEmail(userInfo.email);
+    console.log;
     //because localAuthGuard will handle the write and read
     req.session.email = userInfo.email;
+    req.session.user_Id = user.id;
+
     const customResponse = {
       email: userInfo.email,
       message: 'login successful',
