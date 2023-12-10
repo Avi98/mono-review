@@ -1,5 +1,6 @@
 import React, { ButtonHTMLAttributes } from "react";
 import { cva, VariantProps } from "class-variance-authority";
+import { Loader } from "../loader";
 
 const button = cva(
   "inline-flex items-center justify-center font-medium rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus:ring ",
@@ -45,7 +46,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         ref={ref}
         {...props}
       >
-        {children}
+        {isLoading ? <Loader /> : children}
       </button>
     );
   }
