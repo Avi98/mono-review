@@ -31,16 +31,22 @@ interface ButtonProps
   extends ButtonHTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof button> {
   children: React.ReactNode;
+  isLoading?: boolean;
 }
 
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, size, ...props }, ref) => {
+  (
+    { className, variant, size, isLoading = false, children, ...props },
+    ref
+  ) => {
     return (
       <button
         className={button({ className, variant, size })}
         ref={ref}
         {...props}
-      ></button>
+      >
+        {children}
+      </button>
     );
   }
 );

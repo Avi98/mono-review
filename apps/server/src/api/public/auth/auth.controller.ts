@@ -4,6 +4,7 @@ import {
   ClassSerializerInterceptor,
   Controller,
   Delete,
+  Get,
   Post,
   Req,
   UseGuards,
@@ -15,6 +16,7 @@ import { LocalAuthGuard } from '../../../auth/local.strategy';
 import { LoginInfoDto } from '../../../user/login-info.dto';
 import { SessionGuard } from '../../../session/session.gaurd';
 import { SessionWithRequestType } from '../../../session/interfaces';
+import { InValidUserSession } from '../../../exceptions/errors';
 
 @Controller('auth')
 export class AuthController {
@@ -27,7 +29,7 @@ export class AuthController {
     @Body() userInfo: LoginInfoDto,
   ) {
     const user = await this.userService.getUserByEmail(userInfo.email);
-    console.log;
+
     //because localAuthGuard will handle the write and read
     req.session.email = userInfo.email;
     req.session.user_Id = user.id;
@@ -37,6 +39,13 @@ export class AuthController {
       message: 'login successful',
     };
     return customResponse;
+  }
+
+  @UseGuards(SessionGuard)
+  @Get('/me')
+  async me(@Req() req: SessionWithRequestType) {
+    if (!req.session.user_Id)
+      throw new InValidUserSession('User Session not found logout user');
   }
 
   @UseGuards(SessionGuard)
