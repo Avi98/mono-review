@@ -17,7 +17,7 @@
 - [ ] ES module support for (common package)[https://github.com/Avi98/my_pullRequest/issues/53]
 - [ ] Dashboard
 
-  - [ ] invite user
+  - [ ] view All projects
   - [ ] (view all users)[https://miro.com/app/board/uXjVMLHijZw=/?moveToWidget=3458764564773530009&cot=14]
 
 - [ ] sign up
@@ -35,13 +35,14 @@
   - [ ] AWS SES for sending mail
   - [ ] email service rabbit mq(or pub-sub)
   - [ ] react-mail for email template
+  - [ ] invite user
 
 - [ ] Projects/Repos
 
   - [ ] Project/Repos CRUD based on the user role
   - [ ] -- 🤷 --
 
-- [ ] Repo Dashboard
+- [ ] Projects/Repos Dashboard
 
   - [ ] sidebar- live PRs
   - [ ] sidebar- EC2 instance
