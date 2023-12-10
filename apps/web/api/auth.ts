@@ -3,6 +3,7 @@ import { SERVER_ENDPOINT } from "./contants";
 import { PostRequestBuilder } from "./common/post-reqest-builder";
 import { DeleteRequestBuilder } from "./common/delete-request-builder";
 import { SignUpFormSchemaType } from "../schema/signup";
+import { GetRequestBuilder } from "./common/get-request-builder";
 
 const login = async (payload: { email: string; password: string }) => {
   const getRequest = new PostRequestBuilder("auth/login", SERVER_ENDPOINT);
@@ -20,6 +21,11 @@ const signup = async (
 const logout = async () => {
   const deleteToken = new DeleteRequestBuilder("auth/logout", SERVER_ENDPOINT);
   return await deleteToken.sendRequest();
+};
+
+export const hasAuth = async () => {
+  const getRequest = new GetRequestBuilder("auth/me", SERVER_ENDPOINT);
+  return getRequest.sendRequest();
 };
 
 export const useLogin = ({

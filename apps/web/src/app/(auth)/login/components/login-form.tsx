@@ -11,8 +11,11 @@ import { loginSchema, type LoginFormType } from "../../../../../schema/login";
 import { useRouter } from "next/navigation";
 
 export const LoginForm = () => {
+  const router = useRouter();
+
   const { mutate: login } = useLogin({
     onSuccess: () => {
+      router.push("/dashboard");
       toast({
         desc: "Welcome back!",
         title: "Login Successful",
@@ -27,14 +30,13 @@ export const LoginForm = () => {
       });
     },
   });
-  const router = useRouter();
 
   const { register, handleSubmit } = useForm<LoginFormType>({
     resolver: zodResolver(loginSchema),
   });
+
   const onSubmit = ({ email, password }: LoginFormType) => {
     login({ email, password });
-    router.push("/dashboard");
   };
 
   return (
