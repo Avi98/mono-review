@@ -8,6 +8,7 @@
 - [x] signUp api
 - [x] toast for notification component
 - [x] API request builder for request and response
+- [x] Auth Guard and redirect-url=''
 - [x] list members
 - [ ] delete members feature
 - [ ] change role for members feature
