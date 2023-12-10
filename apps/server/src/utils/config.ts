@@ -40,7 +40,10 @@ const db: TypeOrmModuleOptions = {
   connectTimeoutMS: 5000,
   synchronize: true,
   migrations: [__dirname + '/migrations/**/*{.ts,.js}'],
-  logging: true,
+  logging: false,
+  ssl: {
+    rejectUnauthorized: false,
+  },
   extra: {
     max: 25,
   },
