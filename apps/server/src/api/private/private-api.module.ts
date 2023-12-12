@@ -1,5 +1,4 @@
 import { Module } from '@nestjs/common';
-import { UserController } from './user.controller';
 import { UserService } from '../../user/user.service';
 import { OrganizationService } from '../../organization/organization.service';
 import { User } from '../../user/user.entity';
@@ -10,7 +9,7 @@ import { OrganizationUser } from '../../organization/organization-user.entity';
 
 @Module({
   imports: [TypeOrmModule.forFeature([User, Organization, OrganizationUser])],
-  controllers: [UserController, OrganizationController],
+  controllers: [OrganizationController],
   providers: [UserService, OrganizationService],
 })
 export class PrivateApiModule {}

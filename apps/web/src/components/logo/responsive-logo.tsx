@@ -1,8 +1,7 @@
 "use client";
 import { HTMLAttributes } from "react";
-import { ProductIcon } from "../../../illustrations/ic-productIcon";
+import { ProductIcon } from "../../../illustrations/ic-product-icon";
 import { cn } from "../../utils/classNameMerge";
-import { useSideBar } from "../provider/side-bar-provider";
 
 interface ILogoIcon extends HTMLAttributes<HTMLDivElement> {
   hideName: boolean;
