@@ -5,16 +5,9 @@ import { type MEMBER_ROLE } from "../../../../../utils/types";
 import { castStringToMember as castStringToMemberRole } from "../../../../../utils";
 import { Select } from "../../../../../components/select/Select";
 import { Button } from "../../../../../components/button/Button";
+import { role_options } from "../../../../../utils/roleOption";
 
 interface IMemberRoleChangeModal {}
-
-const role_options: Array<{ label: string; value: MEMBER_ROLE }> = [
-  {
-    label: "Admin",
-    value: "admin",
-  },
-  { label: "Member", value: "member" },
-];
 
 const getRole = (role: string) =>
   role_options.filter(({ value }) => role === value).at(0);
