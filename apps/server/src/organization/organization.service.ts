@@ -162,4 +162,8 @@ export class OrganizationService {
       return null;
     }
   }
+
+  getOrgById(orgId: string) {
+    return this.orgRepository.findOneBy({ id: orgId });
+  }
 }

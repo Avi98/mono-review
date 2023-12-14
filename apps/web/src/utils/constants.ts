@@ -1,4 +1,7 @@
-import { MEMBER_ROLE } from "./types";
+import { UserRoleEnum } from "../enums/memberRoleEnum";
 
 export const HEADER_HEIGHT = "12";
-export const MEMBER_ROLES: MEMBER_ROLE[] = ["member", "admin"];
+export const MEMBER_ROLES: UserRoleEnum[] = [
+  UserRoleEnum.MEMBER,
+  UserRoleEnum.ADMIN,
+];

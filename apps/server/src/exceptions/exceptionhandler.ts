@@ -26,6 +26,10 @@ export const mapOfErrorToHTTPError = new Map([
     'DuplicateOrganization',
     (object): HttpException => new BadRequestException(object),
   ],
+  [
+    'OrganizationNotFound',
+    (object): HttpException => new BadRequestException(object),
+  ],
 ]);
 
 @Catch()

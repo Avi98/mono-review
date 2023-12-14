@@ -3,7 +3,6 @@ import { env } from '@pr/common';
 import * as ExpressSession from 'express-session';
 import { TypeormStore } from 'connect-typeorm';
 import { NestExpressApplication } from '@nestjs/platform-express';
-import { DataSource, DataSourceOptions } from 'typeorm';
 
 //setup session middleware
 export const setupSession = (

@@ -1,5 +1,5 @@
+import { UserRoleEnum } from "../enums/memberRoleEnum";
 import { MEMBER_ROLES } from "./constants";
-import { type MEMBER_ROLE } from "./types";
 
 export const getFullNameInitials = (fullName: string) => {
   const words = fullName.trim().split(" ");
@@ -11,6 +11,6 @@ export const getFullNameInitials = (fullName: string) => {
   return initials.toUpperCase();
 };
 
-export const castStringToMember = (str: string): MEMBER_ROLE | undefined => {
-  if (MEMBER_ROLES.includes(str as any)) return str as MEMBER_ROLE;
+export const castStringToMember = (str: string) => {
+  if (MEMBER_ROLES.includes(str as any)) return str as UserRoleEnum;
 };

@@ -1,5 +1,6 @@
-import { MEMBER_ROLE } from "./types";
+import { UserRoleEnum } from "../enums/memberRoleEnum";
 
-export const role_options: Array<{ label: string; value: MEMBER_ROLE }> = [
-  { label: "Member", value: "member" },
+export const role_options: Array<{ label: string; value: UserRoleEnum }> = [
+  { label: "Member", value: UserRoleEnum.MEMBER },
+  { label: "Only view", value: UserRoleEnum.ALL_USER },
 ];

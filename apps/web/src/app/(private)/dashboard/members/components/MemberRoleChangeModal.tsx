@@ -1,7 +1,7 @@
 import { useCallback, useState } from "react";
 import { Modal } from "../../../../../components/modal";
 import { useMemberActionModal } from "./ModalProviders";
-import { type MEMBER_ROLE } from "../../../../../utils/types";
+import { UserRoleEnum } from "../../../../../enums/memberRoleEnum";
 import { castStringToMember as castStringToMemberRole } from "../../../../../utils";
 import { Select } from "../../../../../components/select/Select";
 import { Button } from "../../../../../components/button/Button";
@@ -20,10 +20,10 @@ export const MemberRoleChangeModal = ({}: IMemberRoleChangeModal) => {
     toggleUpdateMemberModal,
   } = useMemberActionModal();
 
-  const [role, setRole] = useState<{ label: string; value: MEMBER_ROLE }>(
+  const [role, setRole] = useState<{ label: string; value: UserRoleEnum }>(
     getRole(memberRole) || {
       label: "Member",
-      value: "member",
+      value: UserRoleEnum.MEMBER,
     }
   );
 

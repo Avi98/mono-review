@@ -29,7 +29,7 @@ export class User {
 
   @Exclude()
   @Column({
-    nullable: false,
+    nullable: true,
   })
   password: string;
 
@@ -43,6 +43,7 @@ export class User {
 
   @Column({
     type: 'text',
+    nullable: true,
   })
   photo: string | null;
 
@@ -74,10 +75,11 @@ export class User {
   static create(userInfo: {
     firstName: string;
     lastName: string;
-    photo: string;
+    photo?: string;
     email: string;
-    password: string;
+    password?: string;
     username: string;
+    isActive?: boolean;
     source: 'invite' | 'google' | 'git' | 'azure' | 'email';
   }) {
     const user = new User();
@@ -87,6 +89,7 @@ export class User {
     user.source = userInfo.source;
     user.photo = userInfo.photo;
     user.password = userInfo.password;
+    user.isActive = userInfo?.isActive || false;
     user.username = userInfo.username;
 
     return user;
