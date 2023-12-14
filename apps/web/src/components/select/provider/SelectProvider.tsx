@@ -10,7 +10,8 @@ import {
 import { IOption } from "../type";
 
 interface ISelectContext {
-  handleChange: (value: string) => void;
+  handleChange: (value: IOption) => void;
+
   value?: IOption | IOption[] | null;
   isOpen: boolean;
   optionPos: {
@@ -32,7 +33,7 @@ const Context = createContext<ISelectContext>({
 });
 
 interface ISelectProvider {
-  handleChange: (value: string) => void;
+  handleChange: (value: IOption) => void;
   children: ReactNode;
   value?: IOption | IOption[];
   isOpen: boolean;

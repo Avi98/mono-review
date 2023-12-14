@@ -31,5 +31,5 @@ export const useToggle = (props?: IUseToggle) => {
     return open ? onClose() : onOpen();
   };
 
-  return { open, toggle };
+  return { open, toggle, onClose };
 };
