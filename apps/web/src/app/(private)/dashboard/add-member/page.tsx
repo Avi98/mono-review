@@ -5,7 +5,7 @@ const AddMembers = () => {
   return (
     <div className="mt-5 h-full w-full">
       <div className="flex flex-col gap-4 text-center">
-        <div className="m-auto my-2 h-40 w-40">
+        <div className="m-auto h-24 w-24">
           <UserAvatar />
         </div>
         <div className="text-2xl font-semibold antialiased">Add new member</div>

@@ -2,6 +2,10 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { SERVER_ENDPOINT } from "./contants";
 import { GetRequestBuilder } from "./common/get-request-builder";
 import { PostRequestBuilder } from "./common/post-reqest-builder";
+import { AddMemberFormType } from "../schema/AddMember";
+import { UserRoleEnum } from "../src/enums/memberRoleEnum";
+import { TitleEnum } from "../src/enums/titleEnum";
+import { transformAddMembers } from "./payload-transform/transformAddMember";
 
 export interface OrgMember {
   org_user_id: string;
@@ -15,6 +19,18 @@ export interface OrgMember {
   role: string;
 }
 
+export interface AddMemberPayload {
+  role: UserRoleEnum.ALL_USER | UserRoleEnum.MEMBER;
+  title: TitleEnum;
+  email: string;
+  firstName: string;
+  username: string;
+  lastName: string;
+  orgId: string;
+}
+
+export type AddMemberType = AddMemberFormType & { orgId: string };
+
 const getOrgMembers = async (orgId: string) => {
   const getRequest = new GetRequestBuilder<OrgMember[]>(
     `org/all-members/${orgId}`,
@@ -24,12 +40,12 @@ const getOrgMembers = async (orgId: string) => {
   return getRequest.sendRequest();
 };
 
-const addMember = (payload: { email: string; orgId: string }) => {
+const addMember = (payload: AddMemberPayload) => {
   const addOrgMember = new PostRequestBuilder(
-    `org/all-members/${payload.orgId}`,
+    `user/add-new-member`,
     SERVER_ENDPOINT
   );
-  return addOrgMember.withBody({ email: payload.email }).sendRequest();
+  return addOrgMember.withBody(payload).sendRequest();
 };
 
 export const useOrgMembers = (orgId: string) => {
@@ -44,7 +60,9 @@ export const useOrgMembers = (orgId: string) => {
 
 export const useAddMember = () => {
   const mutation = useMutation({
-    mutationFn: addMember,
+    mutationFn: (values: AddMemberType) => {
+      return addMember(transformAddMembers(values));
+    },
   });
   return mutation;
 };

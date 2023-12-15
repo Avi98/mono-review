@@ -6,7 +6,8 @@ import { useOnClickOutside } from "../hooks/use-onclick-outside";
 import { cn } from "../../utils/classNameMerge";
 import { SelectProvider } from "./provider/SelectProvider";
 import { Options } from "./Options";
-import { baseFieldStyle } from "../utils/baseFieldStyles";
+import { baseFieldStyle, errorFieldBaseStyle } from "../utils/baseFieldStyles";
+import { ErrorSubField } from "../error/ErrorField";
 
 export function Select(props: ISelect) {
   const { toggle, open, onClose } = useToggle();
@@ -34,9 +35,10 @@ export function Select(props: ISelect) {
           "focus:ring-blue-500/20",
         ],
         props.disabled && ["bg-background/30", "cursor-not-allowed"],
-        baseFieldStyle
+        baseFieldStyle,
+        props.error && errorFieldBaseStyle
       ),
-    [props.disabled]
+    [props.disabled, props.error]
   );
 
   const hasValue = props.value && !Array.isArray(props.value);
@@ -70,6 +72,7 @@ export function Select(props: ISelect) {
             />
           </div>
         </div>
+        <ErrorSubField error={props.error} />
         <Options options={props.options} />
       </div>
     </SelectProvider>

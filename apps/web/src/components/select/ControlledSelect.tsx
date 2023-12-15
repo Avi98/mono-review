@@ -3,7 +3,8 @@ import { Select } from "./Select";
 import { Controller } from "react-hook-form";
 import { ISelect } from "./type";
 
-interface IControlledSelect extends Omit<ISelect, "onChange" | "value"> {
+interface IControlledSelect
+  extends Omit<ISelect, "onChange" | "value" | "error"> {
   name: string;
 }
 export const ControlledSelect = (props: IControlledSelect) => {
@@ -11,8 +12,13 @@ export const ControlledSelect = (props: IControlledSelect) => {
   return (
     <Controller
       name={name}
-      render={({ field: { onChange, value } }) => (
-        <Select {...selectProps} onChange={onChange} value={value} />
+      render={({ field: { onChange, value }, fieldState: { error } }) => (
+        <Select
+          {...selectProps}
+          onChange={onChange}
+          value={value}
+          error={error}
+        />
       )}
     />
   );
