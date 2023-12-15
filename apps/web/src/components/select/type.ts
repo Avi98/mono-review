@@ -1,3 +1,5 @@
+import { FieldError } from "react-hook-form";
+
 export interface ISelect {
   options: IOption[];
   onChange: (value: string) => void;
@@ -6,6 +8,7 @@ export interface ISelect {
   disabled?: boolean;
   loading?: boolean;
   isClearable?: boolean;
+  error?: FieldError | string;
 }
 
 export interface IOption {
