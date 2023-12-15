@@ -1,6 +1,7 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { SERVER_ENDPOINT } from "./contants";
 import { GetRequestBuilder } from "./common/get-request-builder";
+import { PostRequestBuilder } from "./common/post-reqest-builder";
 
 export interface OrgMember {
   org_user_id: string;
@@ -23,6 +24,14 @@ const getOrgMembers = async (orgId: string) => {
   return getRequest.sendRequest();
 };
 
+const addMember = (payload: { email: string; orgId: string }) => {
+  const addOrgMember = new PostRequestBuilder(
+    `org/all-members/${payload.orgId}`,
+    SERVER_ENDPOINT
+  );
+  return addOrgMember.withBody({ email: payload.email }).sendRequest();
+};
+
 export const useOrgMembers = (orgId: string) => {
   const orgMembers = useQuery({
     queryKey: [orgId],
@@ -31,4 +40,11 @@ export const useOrgMembers = (orgId: string) => {
     },
   });
   return orgMembers;
+};
+
+export const useAddMember = () => {
+  const mutation = useMutation({
+    mutationFn: addMember,
+  });
+  return mutation;
 };

@@ -1,37 +1,33 @@
 import {
+  Body,
   ClassSerializerInterceptor,
   Controller,
-  Get,
-  Req,
-  UnauthorizedException,
+  Post,
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
-import { SessionGuard } from '../../session/session.gaurd';
 import { UserService } from '../../user/user.service';
+import { SessionGuard } from '../../session/session.gaurd';
+import { UserOrgRoleEnum } from '../../utils/enums/UserOrgRoleEnum';
+import { Roles } from '../../organization/roles.metadata';
+import { AddMemberDto } from '../../organization/add-member.dto';
 
 @Controller('user')
 export class UserController {
   constructor(private userService: UserService) {}
 
+  /**
+   * Add user to org
+   * status is inActive
+   * return User @User
+   * @param userInfo
+   * @param session
+   */
+  @UseGuards(SessionGuard)
+  @Roles([UserOrgRoleEnum.ADMIN, UserOrgRoleEnum.MANAGER])
   @UseInterceptors(ClassSerializerInterceptor)
-  @UseGuards(SessionGuard)
-  @Get('me')
-  async getMe(@Req() req) {
-    const email = req.session.email;
-    if (!email) throw new UnauthorizedException('User session not found');
-
-    return await this.userService.getUserByEmail(email);
+  @Post('add-new-member')
+  async addNewMember(@Body() userInfo: AddMemberDto) {
+    return await this.userService.createNewMemberAddToOrg(userInfo);
   }
-
-  //@todo this should be inside org.controller to get all active user
-  // @UseGuards(SessionGuard)
-  // @Get('active-user/:userId')
-  // async getActiveUser(@Param('userId') userId: string) {
-  //   return await this.userService.getAllActiveUser(userId);
-  // }
-
-  @UseGuards(SessionGuard)
-  @Get('in-active-user')
-  getInActiveUser() {}
 }

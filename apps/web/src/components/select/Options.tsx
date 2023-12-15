@@ -8,12 +8,13 @@ interface IOptions {
 
 const List = (props: { options: IOption[] }) => {
   const { handleChange } = useSelect();
+
   return (
     <>
       {props.options.map((option, i) => (
         <div
           className="hover:bg-optionBg flex cursor-pointer items-center rounded-sm p-2"
-          onClick={() => handleChange(option.value)}
+          onClick={() => handleChange(option)}
           key={`${option.value}-${i}`}
         >
           {option.label}

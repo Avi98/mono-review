@@ -26,15 +26,15 @@ export const OuterSideBar = () => {
         />
         <NavBar.LinkItem
           hideLabel={isOpen}
-          href="/dashboard/create-project"
-          icon={<ClipboardCheckIcon />}
-          label="Create new project"
-        />
-        <NavBar.LinkItem
-          hideLabel={isOpen}
           href="/dashboard/add-member"
           icon={<UserPlus2 />}
           label="Add new members"
+        />
+        <NavBar.LinkItem
+          hideLabel={isOpen}
+          href="/dashboard/create-project"
+          icon={<ClipboardCheckIcon />}
+          label="Create new project"
         />
       </NavBar.List>
       <NavBar.Footer>

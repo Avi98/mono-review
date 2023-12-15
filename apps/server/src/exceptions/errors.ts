@@ -17,3 +17,6 @@ export class InValidRoleType extends Error {
 export class DuplicateOrganization extends Error {
   name = 'DuplicateOrganization';
 }
+export class OrganizationNotFound extends Error {
+  name = 'OrganizationNotFound';
+}

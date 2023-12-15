@@ -1,5 +1,4 @@
 import {
-  ReactElement,
   ReactNode,
   createContext,
   useCallback,
@@ -7,7 +6,7 @@ import {
   useMemo,
   useState,
 } from "react";
-import { MEMBER_ROLE } from "../../../../../utils/types";
+import { UserRoleEnum } from "../../../../../enums/memberRoleEnum";
 
 const initialState = {
   toggleDeleteMemberModal: () => {},
@@ -15,19 +14,19 @@ const initialState = {
   isDeleteMemberModalOpen: false,
   isUpdateMemberModalOpen: false,
   memberName: "",
-  memberRole: "member",
+  memberRole: UserRoleEnum.MEMBER,
 } as const;
 
 type ContextType = Omit<typeof initialState, "memberRole"> & {
   memberName: string;
-  memberRole: MEMBER_ROLE;
+  memberRole: UserRoleEnum;
 };
 const MemberActionModalContext = createContext<ContextType>(initialState);
 
 interface IModalProvider {
   children: ReactNode;
   memberName: string;
-  memberRole: MEMBER_ROLE;
+  memberRole: UserRoleEnum;
 }
 
 interface IInitialState {

@@ -1,5 +1,5 @@
 import { HTMLAttributes } from "react";
-import { ProductIcon } from "../../../illustrations/ic-productIcon";
+import { ProductIcon } from "../../../illustrations/ic-product-icon";
 import { cn } from "../../utils/classNameMerge";
 
 interface ILogoIcon extends HTMLAttributes<HTMLDivElement> {}

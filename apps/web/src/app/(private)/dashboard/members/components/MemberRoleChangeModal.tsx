@@ -1,20 +1,13 @@
 import { useCallback, useState } from "react";
 import { Modal } from "../../../../../components/modal";
 import { useMemberActionModal } from "./ModalProviders";
-import { type MEMBER_ROLE } from "../../../../../utils/types";
+import { UserRoleEnum } from "../../../../../enums/memberRoleEnum";
 import { castStringToMember as castStringToMemberRole } from "../../../../../utils";
 import { Select } from "../../../../../components/select/Select";
 import { Button } from "../../../../../components/button/Button";
+import { role_options } from "../../../../../utils/roleOption";
 
 interface IMemberRoleChangeModal {}
-
-const role_options: Array<{ label: string; value: MEMBER_ROLE }> = [
-  {
-    label: "Admin",
-    value: "admin",
-  },
-  { label: "Member", value: "member" },
-];
 
 const getRole = (role: string) =>
   role_options.filter(({ value }) => role === value).at(0);
@@ -27,10 +20,10 @@ export const MemberRoleChangeModal = ({}: IMemberRoleChangeModal) => {
     toggleUpdateMemberModal,
   } = useMemberActionModal();
 
-  const [role, setRole] = useState<{ label: string; value: MEMBER_ROLE }>(
+  const [role, setRole] = useState<{ label: string; value: UserRoleEnum }>(
     getRole(memberRole) || {
       label: "Member",
-      value: "member",
+      value: UserRoleEnum.MEMBER,
     }
   );
 
