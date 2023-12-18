@@ -1,11 +1,13 @@
 import { Avatar } from "../../../../../components/avatar";
+import { UserRoleEnum } from "../../../../../enums/memberRoleEnum";
 import { MemberActionMenu } from "./MemberActionMenu";
 
 interface IMemberItem {
   fullName: string;
   email: string;
   jobTitle: string;
-  role: string;
+  role: UserRoleEnum;
+  id: string;
 }
 export const MemberItem = (props: IMemberItem) => {
   return (
@@ -19,7 +21,11 @@ export const MemberItem = (props: IMemberItem) => {
         <div>{props.jobTitle}</div>
         <div>{props.role}</div>
 
-        <MemberActionMenu />
+        <MemberActionMenu
+          memberName={props.fullName}
+          memberRole={props.role}
+          memberId={props.id}
+        />
       </div>
     </li>
   );

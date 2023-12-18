@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { SERVER_ENDPOINT } from "./contants";
 import { GetRequestBuilder } from "./common/get-request-builder";
 import { PostRequestBuilder } from "./common/post-reqest-builder";
@@ -6,6 +6,7 @@ import { AddMemberFormType } from "../schema/AddMember";
 import { UserRoleEnum } from "../src/enums/memberRoleEnum";
 import { TitleEnum } from "../src/enums/titleEnum";
 import { transformAddMembers } from "./payload-transform/transformAddMember";
+import { DeleteRequestBuilder } from "./common/delete-request-builder";
 
 export interface OrgMember {
   org_user_id: string;
@@ -16,7 +17,7 @@ export interface OrgMember {
   user_firstName: string;
   user_lastName: string;
   user_email: string;
-  role: string;
+  role: UserRoleEnum;
 }
 
 export interface AddMemberPayload {
@@ -27,6 +28,11 @@ export interface AddMemberPayload {
   username: string;
   lastName: string;
   orgId: string;
+}
+
+interface IUpdateRolePayload {
+  memberId: number;
+  role: UserRoleEnum;
 }
 
 export type AddMemberType = AddMemberFormType & { orgId: string };
@@ -45,12 +51,33 @@ const addMember = (payload: AddMemberPayload) => {
     `user/add-new-member`,
     SERVER_ENDPOINT
   );
+
   return addOrgMember.withBody(payload).sendRequest();
 };
 
+const updateMemberRole = ({ memberId, role }: IUpdateRolePayload) => {
+  const updateMemberRole = new PostRequestBuilder(
+    `org/update-member-role`,
+    SERVER_ENDPOINT
+  );
+
+  return updateMemberRole.withBody({ memberId, role }).sendRequest();
+};
+
+const deleteMember = (memberId: string) => {
+  const deleteMember = new DeleteRequestBuilder(
+    `org/delete-member/${memberId}`,
+    SERVER_ENDPOINT
+  );
+
+  return deleteMember.sendRequest();
+};
+
+export const FETCH_ORG_MEMBERS = "FETCH_ORG_MEMBERS";
+
 export const useOrgMembers = (orgId: string) => {
   const orgMembers = useQuery({
-    queryKey: [orgId],
+    queryKey: [orgId, FETCH_ORG_MEMBERS],
     queryFn: () => {
       return getOrgMembers(orgId);
     },
@@ -65,4 +92,47 @@ export const useAddMember = () => {
     },
   });
   return mutation;
+};
+
+export const useUpdateMemberRole = ({
+  onSuccess,
+  onError,
+}: {
+  onSuccess: VoidFunction;
+  onError: (error: Error) => void;
+}) => {
+  const queryClient = useQueryClient();
+
+  const mutate = useMutation({
+    mutationFn: (payload: IUpdateRolePayload) => updateMemberRole(payload),
+    onSuccess: () => {
+      queryClient.invalidateQueries([FETCH_ORG_MEMBERS]);
+      onSuccess();
+    },
+    onError: onError,
+  });
+
+  return mutate;
+};
+
+export const useDeleteMember = ({
+  onSuccess,
+  onError,
+}: {
+  onSuccess: VoidFunction;
+  onError: (error: Error) => void;
+}) => {
+  const queryClient = useQueryClient();
+
+  const mutate = useMutation({
+    mutationFn: (memberId: string) => {
+      return deleteMember(memberId);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries([FETCH_ORG_MEMBERS]);
+      onSuccess();
+    },
+    onError: onError,
+  });
+  return mutate;
 };

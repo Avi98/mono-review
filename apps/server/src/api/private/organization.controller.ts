@@ -48,24 +48,6 @@ export class OrganizationController {
     }
   }
 
-  @UseGuards(SessionGuard, RolesGuard)
-  @Post('add-member')
-  @Roles([UserOrgRoleEnum.ADMIN, UserOrgRoleEnum.MANAGER])
-  async addUser(
-    @Body() orgInfo: { userId: number; orgId: string; role?: UserOrgRoleEnum },
-  ) {
-    try {
-      const member = await this.userService.getUserById(orgInfo.userId);
-      return await this.orgService.addMemberToOrg(
-        member,
-        orgInfo.orgId,
-        orgInfo.role,
-      );
-    } catch (error) {
-      throw error;
-    }
-  }
-
   @UseGuards(SessionGuard)
   @Get('all-members/:orgId')
   async get(@Param('orgId') orgId: string) {
@@ -97,5 +79,6 @@ export class OrganizationController {
   @Delete('delete-member/:memberId')
   async deleteMember(@Param('memberId') memberId: string) {
     await this.orgService.deleteMember(Number(memberId));
+    return 'Successfully removed member';
   }
 }
