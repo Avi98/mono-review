@@ -1,6 +1,6 @@
 import React, { ButtonHTMLAttributes } from "react";
 import { cva, VariantProps } from "class-variance-authority";
-import { Loader } from "../loader";
+import { OverlayLoading } from "../overlayLoading";
 
 const button = cva(
   "inline-flex items-center justify-center font-medium rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus:ring ",
@@ -43,10 +43,13 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     return (
       <button
         className={button({ className, variant, size })}
+        disabled={props?.disabled || isLoading}
         ref={ref}
         {...props}
       >
-        {isLoading ? <Loader /> : children}
+        <OverlayLoading isLoading={isLoading} size={"sm"} bgOverlay={true}>
+          {children}
+        </OverlayLoading>
       </button>
     );
   }

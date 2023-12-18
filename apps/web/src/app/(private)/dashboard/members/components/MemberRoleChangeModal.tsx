@@ -6,19 +6,40 @@ import { castStringToMember as castStringToMemberRole } from "../../../../../uti
 import { Select } from "../../../../../components/select/Select";
 import { Button } from "../../../../../components/button/Button";
 import { role_options } from "../../../../../utils/roleOption";
+import { useUpdateMemberRole } from "../../../../../../api/org";
+import { toast } from "../../../../../components/toast/use-toast";
 
-interface IMemberRoleChangeModal {}
+interface IMemberRoleChangeModal {
+  memberId: string;
+}
 
 const getRole = (role: string) =>
   role_options.filter(({ value }) => role === value).at(0);
 
-export const MemberRoleChangeModal = ({}: IMemberRoleChangeModal) => {
+export const MemberRoleChangeModal = ({ memberId }: IMemberRoleChangeModal) => {
   const {
     isUpdateMemberModalOpen: isOpen,
     memberName,
     memberRole,
     toggleUpdateMemberModal,
   } = useMemberActionModal();
+  const { mutate: saveMemberRole, isLoading } = useUpdateMemberRole({
+    onSuccess: () => {
+      toggleUpdateMemberModal();
+      toast({
+        desc: "Welcome back!",
+        title: "Login Successful",
+        variant: "success",
+      });
+    },
+    onError: (error) => {
+      toast({
+        desc: "Login failed",
+        title: error?.message || "Something went wrong",
+        variant: "error",
+      });
+    },
+  });
 
   const [role, setRole] = useState<{ label: string; value: UserRoleEnum }>(
     getRole(memberRole) || {
@@ -35,8 +56,9 @@ export const MemberRoleChangeModal = ({}: IMemberRoleChangeModal) => {
     if (role) setRole(role);
   }, []);
 
-  const handleSubmit = (e: any) => {
-    console.log({ e });
+  const handleSubmit = (e: React.SyntheticEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    saveMemberRole({ memberId: Number(memberId), role: role.value });
   };
 
   return (
@@ -57,8 +79,10 @@ export const MemberRoleChangeModal = ({}: IMemberRoleChangeModal) => {
             />
           </div>
           <div className="flex justify-end gap-3 py-5">
-            <Button>Cancel</Button>
-            <Button type="submit" variant="primary">
+            <Button type="button" onClick={toggleUpdateMemberModal}>
+              Cancel
+            </Button>
+            <Button type="submit" variant="primary" isLoading={isLoading}>
               Update
             </Button>
           </div>

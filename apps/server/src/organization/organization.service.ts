@@ -107,6 +107,7 @@ export class OrganizationService {
         'user.firstName',
         'user.lastName',
       ])
+      .orderBy('org_user.created_at', 'DESC')
       .getRawMany();
   }
 
