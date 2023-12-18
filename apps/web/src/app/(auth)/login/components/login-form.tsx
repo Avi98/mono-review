@@ -13,7 +13,7 @@ import { useRouter } from "next/navigation";
 export const LoginForm = () => {
   const router = useRouter();
 
-  const { mutate: login } = useLogin({
+  const { mutate: login, isLoading } = useLogin({
     onSuccess: () => {
       router.push("/dashboard");
       toast({
@@ -51,7 +51,7 @@ export const LoginForm = () => {
         type="password"
         {...register("password")}
       />
-      <Button type="submit" variant={"primary"}>
+      <Button type="submit" variant={"primary"} isLoading={isLoading}>
         Login
       </Button>
     </form>

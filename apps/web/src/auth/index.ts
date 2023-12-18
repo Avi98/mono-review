@@ -1,22 +1,33 @@
 import { NextRequest, NextResponse } from "next/server";
-import { hasAuth } from "../../api/auth";
 import { PROTECTED_PATHS } from "./const";
+import { cookies } from "next/headers";
 import { UnAuthorizedError } from "../utils/exceptions";
+import { GetRequestBuilder } from "../../api/common/get-request-builder";
+import { SERVER_ENDPOINT } from "../../api/contants";
 
 const REDIRECT_URL = "redirect-url";
+
+export const hasAuth = async () => {
+  const getRequest = new GetRequestBuilder("auth/me", SERVER_ENDPOINT);
+  console.log({ cookies: cookies().toString() });
+  getRequest.setHeader("Cookie", cookies().toString());
+
+  return getRequest.sendRequest();
+};
 
 export const initAuth = async (req: NextRequest, res: typeof NextResponse) => {
   try {
     if (PROTECTED_PATHS.includes(req.nextUrl.pathname)) {
-      const isAuth = await hasAuth().then(
-        (res) => {
-          console.log({ res });
+      await hasAuth().then(
+        (response) => {
+          console.log({ response });
+          return res.next();
         },
         (error) => {
           console.log({ error });
+          throw error;
         }
       );
-      console.log({ isAuth });
       return onAuthSuccess(req, res);
     }
 
@@ -54,7 +65,6 @@ const getAuthRedirect = (url: URL) => {
 const onAuthSuccess = (req: NextRequest, res: typeof NextResponse) => {
   const hasRedirect = getAuthRedirect(req.nextUrl);
   if (hasRedirect) {
-    console.log({ hasRedirect, isSussess: true });
     return res.redirect(hasRedirect);
   }
   return res.next();
