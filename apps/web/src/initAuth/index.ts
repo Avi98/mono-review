@@ -15,7 +15,7 @@ export const hasAuth = async () => {
   return getRequest.sendRequest();
 };
 
-export const initAuth = async (req: NextRequest, res: typeof NextResponse) => {
+const initAuth = async (req: NextRequest, res: typeof NextResponse) => {
   try {
     if (PROTECTED_PATHS.includes(req.nextUrl.pathname)) {
       await hasAuth().then(
@@ -81,3 +81,5 @@ const redirectToLogIn = (req: NextRequest) => {
   }
   return req.nextUrl.href;
 };
+
+export default initAuth;
