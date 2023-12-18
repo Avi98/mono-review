@@ -40,11 +40,15 @@ const db: TypeOrmModuleOptions = {
   synchronize: true,
   migrations: [__dirname + '/migrations/**/*{.ts,.js}'],
   logging: false,
+  logger: 'advanced-console',
+  logNotifications: true,
   ssl: {
+    //@TODO only in dev
     rejectUnauthorized: false,
   },
   extra: {
     max: 25,
+    connectionProtocolVersion: 3,
   },
 };
 
