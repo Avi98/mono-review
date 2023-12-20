@@ -3,11 +3,11 @@ import { PROTECTED_PATHS } from "./const";
 import { cookies } from "next/headers";
 import { UnAuthorizedError } from "../utils/exceptions";
 import { GetRequestBuilder } from "../../api/common/get-request-builder";
-import { SERVER_ENDPOINT } from "../../api/contants";
+import { SERVER_ENDPOINT } from "../../api/utils/contants";
 
 const REDIRECT_URL = "redirect-url";
 
-export const hasAuth = async () => {
+export const getCurrentUser = async () => {
   const getRequest = new GetRequestBuilder("auth/me", SERVER_ENDPOINT);
   console.log({ cookies: cookies().toString() });
   getRequest.setHeader("Cookie", cookies().toString());
@@ -18,7 +18,7 @@ export const hasAuth = async () => {
 const initAuth = async (req: NextRequest, res: typeof NextResponse) => {
   try {
     if (PROTECTED_PATHS.includes(req.nextUrl.pathname)) {
-      await hasAuth().then(
+      await getCurrentUser().then(
         (response) => {
           console.log({ response });
           return res.next();
