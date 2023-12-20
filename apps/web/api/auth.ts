@@ -1,8 +1,9 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { SERVER_ENDPOINT } from "./contants";
+import { SERVER_ENDPOINT } from "./utils/contants";
 import { PostRequestBuilder } from "./common/post-reqest-builder";
 import { DeleteRequestBuilder } from "./common/delete-request-builder";
 import { SignUpFormSchemaType } from "../schema/signup";
+import { FETCH_CURRENT_USER_SESSION } from "./utils/query-keys";
 import { GetRequestBuilder } from "./common/get-request-builder";
 
 const login = async (payload: { email: string; password: string }) => {
@@ -20,6 +21,15 @@ const signup = async (
 const logout = async () => {
   const deleteToken = new DeleteRequestBuilder("auth/logout", SERVER_ENDPOINT);
   return await deleteToken.sendRequest();
+};
+
+/**
+ * @TODO this is duplicate function of `getCurrentUser`.
+ * @returns
+ */
+export const getUserSession = async () => {
+  const getRequest = new GetRequestBuilder("auth/me", SERVER_ENDPOINT);
+  return getRequest.sendRequest();
 };
 
 export const useLogin = ({
@@ -62,4 +72,20 @@ export const useSignup = ({
     onSuccess: onSuccess,
     onError: onError,
   });
+};
+
+export const useAuth = ({
+  onSuccess,
+  onError,
+}: {
+  onError: (e: Error) => void;
+  onSuccess: VoidFunction;
+}) => {
+  const query = useQuery({
+    queryKey: [FETCH_CURRENT_USER_SESSION],
+    queryFn: getUserSession,
+    onSuccess,
+    onError,
+  });
+  return query;
 };

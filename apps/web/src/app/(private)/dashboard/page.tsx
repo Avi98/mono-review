@@ -1,5 +1,11 @@
+import { AuthProvider } from "./providers/AuthProvider";
+
 const Dashboard = () => {
-  return <div className="grid place-items-center">dashboard</div>;
+  return (
+    <AuthProvider>
+      <div className="grid place-items-center">dashboard</div>{" "}
+    </AuthProvider>
+  );
 };
 
 export default Dashboard;
