@@ -2,21 +2,11 @@
 
 import React from "react";
 import { useAppStore } from "../../../../store/store";
+import { useRunOnMount } from "../../../../components/hooks/use-on-mount";
 
-/**
- * Since user will be loggedin only after this
- * @param param0
- * @returns
- */
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const { fetchCurrentUserSession: fetchUser, user } = useAppStore();
-
-  React.useEffect(() => {
-    fetchUser();
-
-    //only fire this once the component has been loaded
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const { fetchCurrentUserSession: fetchUser } = useAppStore();
+  useRunOnMount(fetchUser);
 
   return <>{children}</>;
 };

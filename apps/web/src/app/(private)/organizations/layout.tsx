@@ -1,6 +1,5 @@
 import { Avatar } from "../../../components/avatar";
 import { SignOutButton } from "../../../components/signOutButton";
-import { OuterSideBar } from "./components/OuterSideBar";
 
 const PrivateRoute = ({ children }: { children: React.ReactNode }) => {
   return (
@@ -13,10 +12,7 @@ const PrivateRoute = ({ children }: { children: React.ReactNode }) => {
           <Avatar fullName="Alex Raonsssssss" />
         </div>
       </header>
-      <div className="flex h-full">
-        <OuterSideBar />
-        <div className="relative top-12 h-full flex-1">{children}</div>
-      </div>
+      <div className="relative top-12 h-full flex-1">{children}</div>
     </div>
   );
 };
