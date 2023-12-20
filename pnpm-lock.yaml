@@ -159,6 +159,7 @@ importers:
       tailwindcss: 3.3.2
       typescript: 5.1.3
       zod: 3.21.4
+      zustand: ^4.4.7
     dependencies:
       '@hookform/resolvers': 3.3.1_react-hook-form@7.46.1
       '@pr/common': link:../../packages/common
@@ -182,6 +183,7 @@ importers:
       tailwind-merge: 1.14.0
       typescript: 5.1.3
       zod: 3.21.4
+      zustand: 4.4.7_i73ekzlbntu7jol6ph2fvy4mga
     devDependencies:
       '@tanstack/eslint-plugin-query': 4.34.1_eslint@8.43.0
       eslint-config-next: 13.5.2_7yfldhli4vs6yywnkyiujhawka
@@ -12123,3 +12125,23 @@ packages:
 
   /zod/3.21.4:
     resolution: {integrity: sha512-m46AKbrzKVzOzs/DZgVnG5H55N1sv1M8qZU3A8RIKbs3mrACDNeIOeilDymVb2HdmP8uwshOCF4uJ8uM9rCqJw==}
+
+  /zustand/4.4.7_i73ekzlbntu7jol6ph2fvy4mga:
+    resolution: {integrity: sha512-QFJWJMdlETcI69paJwhSMJz7PPWjVP8Sjhclxmxmxv/RYI7ZOvR5BHX+ktH0we9gTWQMxcne8q1OY8xxz604gw==}
+    engines: {node: '>=12.7.0'}
+    peerDependencies:
+      '@types/react': '>=16.8'
+      immer: '>=9.0'
+      react: '>=16.8'
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+      immer:
+        optional: true
+      react:
+        optional: true
+    dependencies:
+      '@types/react': 18.2.14
+      react: 18.2.0
+      use-sync-external-store: 1.2.0_react@18.2.0
+    dev: false
