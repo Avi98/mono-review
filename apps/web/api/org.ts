@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { SERVER_ENDPOINT } from "./contants";
+import { SERVER_ENDPOINT } from "./utils/contants";
 import { GetRequestBuilder } from "./common/get-request-builder";
 import { PostRequestBuilder } from "./common/post-reqest-builder";
 import { AddMemberFormType } from "../schema/AddMember";
