@@ -3,7 +3,7 @@ import React from "react";
 export const useRunOnMount = (cb: VoidFunction) => {
   const mountRef = React.useRef(false);
 
-  React.useLayoutEffect(() => {
+  React.useEffect(() => {
     if (mountRef.current === false) {
       cb();
     }

@@ -2,11 +2,17 @@
 
 import React from "react";
 import { useAppStore } from "../../../../store/store";
+import { UserStoreType } from "../../../../store/slices/user-session-slice";
 import { useRunOnMount } from "../../../../components/hooks/use-on-mount";
 
-export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const { fetchCurrentUserSession: fetchUser } = useAppStore();
-  useRunOnMount(fetchUser);
+interface IAuthProvider {
+  children: React.ReactNode;
+  user: UserStoreType;
+}
+export const AuthProvider = ({ children, user }: IAuthProvider) => {
+  const { setUserSession } = useAppStore();
+
+  useRunOnMount(() => setUserSession(user));
 
   return <>{children}</>;
 };
