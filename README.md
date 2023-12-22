@@ -10,9 +10,9 @@
 - [x] API request builder for request and response
 - [x] Auth Guard and redirect-url=''
 - [x] list members
-- [ ] delete members feature
-- [ ] change role for members feature
-- [ ] add members feature
+- [x] delete members feature
+- [x] change role for members feature
+- [x] add members feature
 - [ ] responsive layout
 - [ ] ES module support for (common package)[https://github.com/Avi98/my_pullRequest/issues/53]
 - [ ] Dashboard
@@ -53,6 +53,7 @@
 
 - [ ] Analytics
 
+org page UI https://dribbble.com/shots/6825660/attachments/6825660-Workspaces-Homepage?mode=media
 **Miro [Link](https://miro.com/app/board/uXjVMLHijZw=/?share_link_id=947536122154)**
 
 ### Azure task
