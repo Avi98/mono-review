@@ -35,6 +35,7 @@ export class UserService {
       where: {
         id: userId,
       },
+      relations: ['organizations', 'ownedOrganizations'],
     });
   }
 

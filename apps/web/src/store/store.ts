@@ -1,11 +1,14 @@
 import { create } from "zustand";
 import {
-  UserSessionSlice,
+  createOrganization,
   createUserSession,
-} from "./slices/user-session-slice";
+  type UserSessionSlice,
+  type OrganizationSlice,
+} from "./slices";
 
-type StoreState = UserSessionSlice;
+type StoreState = UserSessionSlice & OrganizationSlice;
 
 export const useAppStore = create<StoreState>()((...a) => ({
   ...createUserSession(...a),
+  ...createOrganization(...a),
 }));

@@ -1,10 +1,10 @@
 "use client";
 
 import React from "react";
-import { Button } from "../../../../components/button/Button";
+import { useLogout } from "../../../api/auth";
+import { Button } from "../button/Button";
+import { toast } from "../toast/use-toast";
 import { useRouter } from "next/navigation";
-import { useLogout } from "../../../../../api/auth";
-import { toast } from "../../../../components/toast/use-toast";
 
 export const SignOutButton = () => {
   const router = useRouter();

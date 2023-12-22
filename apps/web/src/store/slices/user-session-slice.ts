@@ -1,16 +1,8 @@
 import { StateCreator } from "zustand";
 import { getUserSession } from "../../../api/auth";
+import { User } from "./types";
 
-export type UserStoreType = {
-  firstName: string;
-  lastName: string;
-  userId: string | number;
-  isActive: boolean;
-  email: string;
-  ownedOrgs: string[];
-  memberOrgs: string;
-  isFetchingUserSession: boolean;
-};
+export type UserStoreType = User;
 
 export type UserSessionSlice = {
   user: UserStoreType | null;

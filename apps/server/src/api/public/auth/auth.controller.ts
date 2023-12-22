@@ -41,11 +41,17 @@ export class AuthController {
     return customResponse;
   }
 
+  @UseInterceptors(ClassSerializerInterceptor)
   @UseGuards(SessionGuard)
   @Get('/me')
   async me(@Req() req: SessionWithRequestType) {
-    if (!req.session.user_Id)
+    const userId = req.session?.user_Id;
+
+    if (!userId)
       throw new InValidUserSession('User Session not found logout user');
+
+    const userService = await this.userService.getUserById(userId);
+    return userService;
   }
 
   @UseGuards(SessionGuard)
