@@ -75,12 +75,11 @@ const deleteMember = (memberId: string) => {
 
 export const FETCH_ORG_MEMBERS = "FETCH_ORG_MEMBERS";
 
-export const useOrgMembers = (orgId: string) => {
+export const useOrgMembers = (orgId = "") => {
   const orgMembers = useQuery({
     queryKey: [orgId, FETCH_ORG_MEMBERS],
-    queryFn: () => {
-      return getOrgMembers(orgId);
-    },
+    queryFn: () => getOrgMembers(orgId),
+    enabled: Boolean(orgId),
   });
   return orgMembers;
 };

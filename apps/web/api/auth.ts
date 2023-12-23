@@ -23,15 +23,6 @@ const logout = async () => {
   return await deleteToken.sendRequest();
 };
 
-/**
- * @TODO this is duplicate function of `getCurrentUser`.
- * @returns
- */
-export const getUserSession = async () => {
-  const getRequest = new GetRequestBuilder("auth/me", SERVER_ENDPOINT);
-  return getRequest.sendRequest();
-};
-
 export const useLogin = ({
   onError,
   onSuccess,

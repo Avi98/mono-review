@@ -1,16 +1,14 @@
 "use client";
 
 import { useOrgMembers } from "../../../../../../api/org";
-import { Loader } from "../../../../../components/loader";
 import { OverlayLoading } from "../../../../../components/overlayLoading";
+import { useAppStore } from "../../../../../store/store";
 import { EmptyMemberList } from "./EmptyMemberList";
 import { MemberItem } from "./MemberItem";
 
 export const MemberList = () => {
-  const { data: orgMembers, isLoading } = useOrgMembers(
-    //@TODO
-    "83f008f8-87e4-4e3f-89c7-595cdb04287e"
-  );
+  const orgId = useAppStore((state) => state.currentOrgId);
+  const { data: orgMembers, isLoading } = useOrgMembers(orgId || "");
 
   if (!orgMembers?.length && !isLoading) {
     return <EmptyMemberList />;
