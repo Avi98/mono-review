@@ -1,4 +1,4 @@
-import { hash, compare } from 'bcrypt';
+import { hash, compare } from 'bcryptjs';
 
 export async function hashPassword(text: string): Promise<string> {
   return await hash(text, 13);
