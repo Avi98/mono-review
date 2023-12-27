@@ -5,6 +5,7 @@ import { DeleteRequestBuilder } from "./common/delete-request-builder";
 import { SignUpFormSchemaType } from "../schema/signup";
 import { FETCH_CURRENT_USER_SESSION } from "./utils/query-keys";
 import { GetRequestBuilder } from "./common/get-request-builder";
+import { User } from "../src/interfaces/IUserResponse";
 
 const login = async (payload: { email: string; password: string }) => {
   const loginUser = new PostRequestBuilder("auth/login", SERVER_ENDPOINT);
@@ -21,6 +22,13 @@ const signup = async (
 const logout = async () => {
   const deleteToken = new DeleteRequestBuilder("auth/logout", SERVER_ENDPOINT);
   return await deleteToken.sendRequest();
+};
+
+const getCurrentUser = async () => {
+  const getRequest = new GetRequestBuilder<User>("auth/me", SERVER_ENDPOINT);
+  // getRequest.setHeader("Cookie", cookies().toString());
+
+  return await getRequest.sendRequest();
 };
 
 export const useLogin = ({
@@ -74,7 +82,7 @@ export const useAuth = ({
 }) => {
   const query = useQuery({
     queryKey: [FETCH_CURRENT_USER_SESSION],
-    queryFn: getUserSession,
+    queryFn: getCurrentUser,
     onSuccess,
     onError,
   });
