@@ -16,6 +16,7 @@ import { Exclude } from 'class-transformer';
 @Entity()
 @Unique(['user'])
 export class OrganizationUser {
+  @Exclude()
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
