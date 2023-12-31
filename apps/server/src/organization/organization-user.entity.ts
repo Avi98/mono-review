@@ -14,7 +14,7 @@ import { UserOrgRoleEnum } from '../utils/enums/UserOrgRoleEnum';
 import { Exclude } from 'class-transformer';
 
 @Entity()
-@Unique(['user'])
+@Unique(['user', 'organization'])
 export class OrganizationUser {
   @Exclude()
   @PrimaryGeneratedColumn('uuid')
@@ -28,7 +28,7 @@ export class OrganizationUser {
   @JoinColumn({ name: 'org_id' })
   organization: Organization;
 
-  @Column({ type: 'boolean', default: false })
+  @Column({ type: 'boolean', default: false, name: 'isOwner' })
   isOwner: boolean;
 
   @Column({

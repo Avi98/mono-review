@@ -16,7 +16,7 @@ export const LoginForm = () => {
 
   const { mutate: login, isLoading } = useLogin({
     onSuccess: () => {
-      router.push(privatePath.dashboard);
+      router.push(privatePath.organization);
       toast({
         desc: "Welcome back!",
         title: "Login Successful",
